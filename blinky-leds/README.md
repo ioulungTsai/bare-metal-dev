@@ -1,6 +1,6 @@
 # Blinky LEDs Project
 
-This is a simple "Blinky LEDs" project that demonstrates how to make LEDs blink on a microcontroller. 
+This is a simple "Blinky LEDs" project that demonstrates how to make LEDs blink on the STM32F407VGT6. 
 
 ## Table of Contents
 
@@ -8,8 +8,6 @@ This is a simple "Blinky LEDs" project that demonstrates how to make LEDs blink 
 - [Hardware Requirements](#hardware-requirements)
 - [Software Requirements](#software-requirements)
 - [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [License](#license)
 
 ## Introduction
 
@@ -24,7 +22,7 @@ This project provides a basic template for creating your own bare-metal projects
 
 ## Software Requirements
 
-- [Development toolchain](#) (e.g., Arm GNU Toolchain, VS Code, OpenOCD, GDB client etc.)
+- Development toolchain (e.g., Arm GNU Toolchain, VS Code, OpenOCD, GDB client etc.)
 
 ## Getting Started
 
@@ -33,4 +31,4 @@ To get started with the "Blinky LEDs" project, follow these steps:
 1. Clone this repository to your development environment:
 
    ```bash
-   git clone https://github.com/your-username/bare-metal-dev.git
+   git clone https://github.com/ioulungTsai/bare-metal-dev.git
