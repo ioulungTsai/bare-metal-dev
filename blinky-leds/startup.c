@@ -7,13 +7,20 @@
 #define STACK_START SRAM_END
 
 void Reset_Handler(void);
+void NMI_Handler(void) __attribute__ ((weak, alias("Default_Handler")));
 
-uint32_t vectors[] = {
+uint32_t vectors[] __attribute__ ((section (".isr_vector"))) = {
     STACK_START,
     (uint32_t) &Reset_Handler,
-
+    (uint32_t) &NMI_Handler,
 };
 
-void Reset_Handler(void) {
+void Default_Handler(void)
+{
+    while(1);
+}
+
+void Reset_Handler(void)
+{
 
 }
