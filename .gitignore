@@ -3,6 +3,9 @@
 *.out
 *.elf
 
+# Linked map files
+*.map
+
 # Executables
 *.exe
 *.app

@@ -18,5 +18,5 @@ blinky.elf : main.o led.o startup.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 clean :
-	rm -rf *.o *.elf
+	rm -rf *.o *.elf *.map
 	
