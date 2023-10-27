@@ -12,6 +12,7 @@
 #endif
 
 #include<stdio.h>
+#include<stdint.h>
 #include"main.h"
 #include "led.h"
 
