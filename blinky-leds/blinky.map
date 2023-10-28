@@ -12,7 +12,7 @@ LOAD main.o
 LOAD led.o
 LOAD startup.o
 
-.text           0x08000000      0x77d
+.text           0x08000000      0x780
  *(.isr_vector)
  .isr_vector    0x08000000      0x188 startup.o
                 0x08000000                vectors
@@ -139,7 +139,9 @@ LOAD startup.o
                 0x08000774                const_v_1
                 0x08000778                const_v_2
                 0x0800077c                const_V_3
-                0x0800077d                        _etext = .
+                0x08000780                        . = ALIGN (0x4)
+ *fill*         0x0800077d        0x3 
+                0x08000780                        _etext = .
 
 .glue_7         0x08000780        0x0
  .glue_7        0x08000780        0x0 linker stubs
@@ -159,19 +161,21 @@ LOAD startup.o
 .rel.dyn        0x08000780        0x0
  .rel.iplt      0x08000780        0x0 main.o
 
-.data           0x20000000        0x1 load address 0x0800077d
+.data           0x20000000        0x4 load address 0x08000780
                 0x20000000                        _sdata = .
  *(.data)
  .data          0x20000000        0x1 main.o
                 0x20000000                current_task
  .data          0x20000001        0x0 led.o
  .data          0x20000001        0x0 startup.o
-                0x20000001                        _edata = .
+                0x20000004                        . = ALIGN (0x4)
+ *fill*         0x20000001        0x3 
+                0x20000004                        _edata = .
 
-.igot.plt       0x20000004        0x0 load address 0x0800077e
+.igot.plt       0x20000004        0x0 load address 0x08000784
  .igot.plt      0x20000004        0x0 main.o
 
-.bss            0x20000004       0x54 load address 0x0800077e
+.bss            0x20000004       0x54 load address 0x08000784
                 0x20000004                        _sbss = .
  *(.bss)
  .bss           0x20000004       0x54 main.o
