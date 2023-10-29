@@ -6,6 +6,15 @@
 
 #define STACK_START SRAM_END
 
+extern uint32_t _etext;
+
+extern uint32_t _sdata;
+extern uint32_t _edata;
+extern uint32_t _sbss;
+extern uint32_t _ebss;
+
+int main(void);
+
 void Reset_Handler(void);
 
 void NMI_Handler 					(void) __attribute__ ((weak, alias("Default_Handler")));
@@ -207,5 +216,25 @@ void Default_Handler(void)
 
 void Reset_Handler(void)
 {
+    // copy .data section to SRAM
+    uint32_t size               = (uint32_t) &_edata - (uint32_t) &_sdata;
+    uint8_t *source_data        = (uint8_t*) &_etext;
+    uint8_t *destination_data   = (uint8_t*) &_sdata;
 
+    for (uint32_t i = 0 ; i < size ; i++) {
+        destination_data[i] = source_data[i];
+    }
+    
+    // initial the .bss section to zero in SRAM
+    size = (uint32_t) &_ebss - (uint32_t) &_sbss;
+    destination_data = (uint8_t*) &_sbss;
+
+    for (uint32_t i = 0 ; i < size ; i++) {
+        destination_data[i] = 0;
+    }
+
+    // call initial function of standard library
+
+    // call main()
+    main();
 }
