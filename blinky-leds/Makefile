@@ -18,5 +18,7 @@ blinky.elf : main.o led.o startup.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 clean :
-	rm -rf *.o *.elf *.map
-	
+	rm -rf *.o *.elf
+
+load : 
+	openocd -f board/stm32f4discovery.cfg
