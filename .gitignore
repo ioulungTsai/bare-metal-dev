@@ -1,9 +1,12 @@
-# Compiled object files
+# Compiled Assembly files
+*.s
+
+# Compiled Object files
 *.o
 *.out
 *.elf
 
-# Linked map files
+# Linked Map files
 *.map
 
 # Executables
