@@ -62,7 +62,7 @@ int main(void)
 
 	init_scheduler_stack(SCHED_STACK_START);
 
-	// printf("Implementation of simple task scheduler\n");
+	printf("Implementation of simple task scheduler\n");
 
 	init_tasks_stack();
 
@@ -88,7 +88,7 @@ void task1_handler(void)
 {
 	while(1)
 	{
-		// printf("Task1 is executing\n");
+		printf("Task1 is executing\n");
 		led_on(LED_GREEN);
 		task_delay(1000);
 		led_off(LED_GREEN);
@@ -101,7 +101,7 @@ void task2_handler(void)
 {
 	while(1)
 	{
-		// printf("Task2 is executing\n");
+		printf("Task2 is executing\n");
 		led_on(LED_ORANGE);
 		task_delay(1000);
 		led_off(LED_ORANGE);
@@ -114,7 +114,7 @@ void task3_handler(void)
 {
 	while(1)
 	{
-		// printf("Task3 is executing\n");
+		printf("Task3 is executing\n");
 		led_on(LED_BLUE);
 		task_delay(250);
 		led_off(LED_BLUE);
@@ -128,7 +128,7 @@ void task4_handler(void)
 {
 	while(1)
 	{
-		// printf("Task4 is executing\n");
+		printf("Task4 is executing\n");
 		led_on(LED_RED);
 		task_delay(125);
 		led_off(LED_RED);
@@ -391,20 +391,20 @@ void  SysTick_Handler(void)
 //2. implement the fault handlers
 void HardFault_Handler(void)
 {
-	// printf("Exception : Hardfault\n");
+	printf("Exception : Hardfault\n");
 	while(1);
 }
 
 
 void MemManage_Handler(void)
 {
-	// printf("Exception : MemManage\n");
+	printf("Exception : MemManage\n");
 	while(1);
 }
 
 void BusFault_Handler(void)
 {
-	// printf("Exception : BusFault\n");
+	printf("Exception : BusFault\n");
 	while(1);
 }
 

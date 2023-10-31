@@ -8,12 +8,16 @@
 
 extern uint32_t _etext;
 
+extern uint32_t _la_data;
+
 extern uint32_t _sdata;
 extern uint32_t _edata;
 extern uint32_t _sbss;
 extern uint32_t _ebss;
 
 int main(void);
+
+void __libc_init_array(void);
 
 void Reset_Handler(void);
 
@@ -218,7 +222,7 @@ void Reset_Handler(void)
 {
     // copy .data section to SRAM
     uint32_t size               = (uint32_t) &_edata - (uint32_t) &_sdata;
-    uint8_t *source_data        = (uint8_t*) &_etext;
+    uint8_t *source_data        = (uint8_t*) &_la_data;
     uint8_t *destination_data   = (uint8_t*) &_sdata;
 
     for (uint32_t i = 0 ; i < size ; i++) {
@@ -234,6 +238,7 @@ void Reset_Handler(void)
     }
 
     // call initial function of standard library
+    __libc_init_array();
 
     // call main()
     main();
