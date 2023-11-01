@@ -1,9 +1,12 @@
 CC = arm-none-eabi-gcc
 MACH = cortex-m4
 CFLAGS = -c -mcpu=$(MACH) -mthumb -mfloat-abi=soft -std=gnu11 -Wall -O0
-LDFLAGS = -mcpu=$(MACH) -mthumb -mfloat-abi=soft --specs=nano.specs -T linker_script.ld -Wl,-Map=blinky.map
+# LDFLAGS = -mcpu=$(MACH) -mthumb -mfloat-abi=soft --specs=nano.specs -T linker_script.ld -Wl,-Map=blinky.map
+LDFLAGS_SH = -mcpu=$(MACH) -mthumb -mfloat-abi=soft --specs=rdimon.specs -T linker_script.ld -Wl,-Map=blinky.map
 
 all : main.o led.o startup.o syscalls.o blinky.elf
+
+semi : main.o led.o startup.o syscalls.o blinky_sh.elf
  
 main.o : main.c
 	$(CC) $(CFLAGS) -o $@ $^
@@ -19,6 +22,9 @@ syscalls.o : syscalls.c
 
 blinky.elf : main.o led.o startup.o syscalls.o
 	$(CC) $(LDFLAGS) -o $@ $^
+
+blinky_sh.elf : main.o led.o startup.o
+	$(CC) $(LDFLAGS_SH) -o $@ $^
 
 clean :
 	rm -rf *.o *.elf
