@@ -44,15 +44,27 @@
  * TODO : Complete for all other peripherals
  */
 
-#define I2C1_BASEADDR                   ((APB1PERIPH_BASEADDR) + 0x5400)
-#define I2C2_BASEADDR                   ((APB1PERIPH_BASEADDR) + 0x5800)
-#define I2C3_BASEADDR                   ((APB1PERIPH_BASEADDR) + 0x5C00)
 #define SPI2_BASEADDR                   ((APB1PERIPH_BASEADDR) + 0x3800)
 #define SPI3_BASEADDR                   ((APB1PERIPH_BASEADDR) + 0x3C00)
 #define UART2_BASEADDR                  ((APB1PERIPH_BASEADDR) + 0x4400)
 #define UART3_BASEADDR                  ((APB1PERIPH_BASEADDR) + 0x4800)
 #define UART4_BASEADDR                  ((APB1PERIPH_BASEADDR) + 0x4C00)
 #define UART5_BASEADDR                  ((APB1PERIPH_BASEADDR) + 0x5000)
+#define I2C1_BASEADDR                   ((APB1PERIPH_BASEADDR) + 0x5400)
+#define I2C2_BASEADDR                   ((APB1PERIPH_BASEADDR) + 0x5800)
+#define I2C3_BASEADDR                   ((APB1PERIPH_BASEADDR) + 0x5C00)
+
+
+/* 
+ * base address of peripherals which hanging on APB2 bus
+ * TODO : Complete for all other peripherals
+ */
+
+#define UART1_BASEADDR                  ((APB2PERIPH_BASEADDR) + 0x1000)
+#define UART6_BASEADDR                  ((APB2PERIPH_BASEADDR) + 0x1400)
+#define SPI1_BASEADDR                   ((APB2PERIPH_BASEADDR) + 0x3000)
+#define SYSCFG_BASEADDR                 ((APB2PERIPH_BASEADDR) + 0x3800)
+#define EXTI_BASEADDR                   ((APB2PERIPH_BASEADDR) + 0x3C00)
 
 
 #endif /* INC_STM32F407XX_H_ */
