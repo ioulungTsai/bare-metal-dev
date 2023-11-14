@@ -1,5 +1,10 @@
+
 #ifndef INC_STM32F407XX_H_
 #define INC_STM32F407XX_H_
+
+#include <stdint.h>
+
+#define __vo volatile
 
 /* 
  * base address of Flash and SRAM memories
@@ -65,6 +70,32 @@
 #define SPI1_BASEADDR                   ((APB2PERIPH_BASEADDR) + 0x3000)
 #define SYSCFG_BASEADDR                 ((APB2PERIPH_BASEADDR) + 0x3800)
 #define EXTI_BASEADDR                   ((APB2PERIPH_BASEADDR) + 0x3C00)
+
+
+/************************** Peripheral Register Definition Structure **************************/
+
+/* 
+ * Note : Register of a Peripheral are specific to MCU
+ * e.g : Number of Register of SPI peripheral of STM32F4x family of MCUs may be different (more or less)
+ * Compared to number of registers of SPI peripheral of STM32Lx or STM32F0x family of MCUs
+ * Please check the Device Reference Manual
+ */
+
+typedef struct
+{
+    __vo uint32_t MODER;                     /* GPIO port mode register                          Address offset: 0x00 */
+    __vo uint32_t OTYPER;                    /* GPIO port output type register                   Address offset: 0x04 */
+    __vo uint32_t OSPEEDR;                   /* GPIO port output speed register                  Address offset: 0x08 */
+    __vo uint32_t PUPDR;                     /* GPIO port pull-up/pull-down register             Address offset: 0x0C */
+    __vo uint32_t IDR;                       /* GPIO port input data register                    Address offset: 0x10 */
+    __vo uint32_t ODR;                       /* GPIO port output data register                   Address offset: 0x14 */
+    __vo uint32_t BSRR;                      /* GPIO port bit set/reset register                 Address offset: 0x18 */
+    __vo uint32_t LCKR;                      /* GPIO port configuration lock register            Address offset: 0x1C */
+    __vo uint32_t AFR[2];                    /* AF[0] GPIO alternate function low register       Address offset: 0x20
+                                              * AF[1] GPIO alternate function high register      Address offset: 0x24 */
+}GPIO_RegDef_t;
+
+
 
 
 #endif /* INC_STM32F407XX_H_ */
