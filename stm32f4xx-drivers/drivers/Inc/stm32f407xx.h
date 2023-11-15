@@ -149,4 +149,64 @@ typedef struct
 
 #define RCC             ((RCC_RegDef_t*) RCC_BASEADDR)
 
+
+/*
+ * Clock Eanble Macros for GPIO peripherals
+ */
+
+#define GPIOA_PCLK_EN()     ( RCC->AHB1ENR |= ( 1 << 0 ) )
+#define GPIOB_PCLK_EN()     ( RCC->AHB1ENR |= ( 1 << 1 ) )
+
+/*
+ * Clock Eanble Macros for I2Cx peripherals
+ */
+
+#define I2C1_PCLK_EN()      ( RCC->APB1ENR |= ( 1 << 21 ) )
+#define I2C2_PCLK_EN()      ( RCC->APB1ENR |= ( 1 << 22 ) )
+#define I2C3_PCLK_EN()      ( RCC->APB1ENR |= ( 1 << 23 ) )
+
+/*
+ * Clock Eanble Macros for SPIx peripherals
+ */
+
+#define SPI1_PCLK_EN()      ( RCC->APB2ENR |= ( 1 << 12 ) )
+
+/*
+ * Clock Eanble Macros for USARTx peripherals
+ */
+
+
+/*
+ * Clock Eanble Macros for SYSCFG peripherals
+ */
+
+
+
+
+/*
+ * Clock Disable Macros for GPIO peripherals
+ */
+
+#define GPIOA_PCLK_DI()     ( RCC->AHB1ENR &= ~( 1 << 0 ) ) 
+
+/*
+ * Clock Disable Macros for I2Cx peripherals
+ */
+
+
+/*
+ * Clock Disable Macros for SPIx peripherals
+ */
+
+
+/*
+ * Clock Disable Macros for USARTx peripherals
+ */
+
+
+/*
+ * Clock Disable Macros for SYSCFG peripherals
+ */
+
+
 #endif /* INC_STM32F407XX_H_ */
