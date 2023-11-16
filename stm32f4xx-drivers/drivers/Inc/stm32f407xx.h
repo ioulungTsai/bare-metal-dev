@@ -173,11 +173,15 @@ typedef struct
 #define I2C2_PCLK_EN()      ( RCC->APB1ENR |= ( 1 << 22 ) )
 #define I2C3_PCLK_EN()      ( RCC->APB1ENR |= ( 1 << 23 ) )
 
+
 /*
  * Clock Eanble Macros for SPIx peripherals
  */
 
 #define SPI1_PCLK_EN()      ( RCC->APB2ENR |= ( 1 << 12 ) )
+#define SPI2_PCLK_EN()      ( RCC->APB1ENR |= ( 1 << 14 ) )
+#define SPI3_PCLK_EN()      ( RCC->APB1ENR |= ( 1 << 15 ) )
+
 
 /*
  * Clock Eanble Macros for USARTx peripherals
