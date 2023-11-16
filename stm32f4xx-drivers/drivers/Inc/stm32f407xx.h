@@ -187,6 +187,13 @@ typedef struct
  * Clock Eanble Macros for USARTx peripherals
  */
 
+#define USART1_PCLK_EN()      ( RCC->APB2ENR |= ( 1 << 4  ) )
+#define USART2_PCLK_EN()      ( RCC->APB1ENR |= ( 1 << 17 ) )
+#define USART3_PCLK_EN()      ( RCC->APB1ENR |= ( 1 << 18 ) )
+#define UART4_PCLK_EN()       ( RCC->APB1ENR |= ( 1 << 19 ) )
+#define UART5_PCLK_EN()       ( RCC->APB1ENR |= ( 1 << 20 ) )
+#define USART6_PCLK_EN()      ( RCC->APB2ENR |= ( 1 << 5  ) )
+
 
 /*
  * Clock Eanble Macros for SYSCFG peripherals
