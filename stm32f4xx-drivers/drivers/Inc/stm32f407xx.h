@@ -199,6 +199,7 @@ typedef struct
  * Clock Eanble Macros for SYSCFG peripherals
  */
 
+#define SYSCFG_PCLK_EN()      ( RCC->APB2ENR |= ( 1 << 14  ) )
 
 
 
@@ -207,6 +208,7 @@ typedef struct
  */
 
 #define GPIOA_PCLK_DI()     ( RCC->AHB1ENR &= ~( 1 << 0 ) ) 
+
 
 /*
  * Clock Disable Macros for I2Cx peripherals
