@@ -1,19 +1,25 @@
 #include "stm32f407xx_gpio_driver.h"
 
-/*********************************************************************
- * @fn      		  - GPIO_PeriClockControl
- *
- * @brief             - This function enables or disables peripheral clock for the given GPIO port
- *
- * @param[in]         - Base address of the GPIO peripheral
- * @param[in]         - ENABLE or DISABLE macros
- * @param[in]         -
- *
- * @return            -  none
- *
- * @Note              -  none
 
- ********************************************************************/
+/**
+ * @fn void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi)
+ * @brief Control the peripheral clock for a GPIO port.
+ *
+ * This function is responsible for enabling or disabling the peripheral clock for a specified GPIO port.
+ * When enabling the clock, it calls the corresponding clock enable function for the specified GPIO port.
+ * When disabling the clock, it calls the corresponding clock disable function for the specified GPIO port.
+ *
+ * @param pGPIOx Pointer to the GPIO peripheral's register structure.
+ * @param EnorDi  Specify whether to enable (ENABLE) or disable (DISABLE) the peripheral clock.
+ *
+ * @note This function assumes that clock enable and disable functions (e.g., GPIOA_PCLK_EN, GPIOA_PCLK_DI)
+ *       are defined elsewhere in the codebase for each GPIO port.
+ *
+ * @warning It is the responsibility of the user to ensure that clock enable and disable functions are defined
+ *          and handle the clock control for the specific microcontroller being used.
+ *
+ * @see GPIOA_PCLK_EN, GPIOA_PCLK_DI, GPIOB_PCLK_EN, GPIOB_PCLK_DI, ... (similar functions for other GPIO ports)
+ */
 
 void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi)
 {
@@ -102,7 +108,7 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi)
  */
 
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
-{
+{   
 }
 
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx)
