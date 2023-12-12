@@ -1,22 +1,33 @@
-CC = arm-none-eabi-gcc
-MACH = cortex-m4
-CFLAGS = -c -mcpu=$(MACH) -mthumb -mfloat-abi=soft -std=gnu11 -Wall -O0 -Idrivers/Inc
-LDFLAGS = -mcpu=$(MACH) -mthumb -mfloat-abi=soft --specs=nano.specs -T linker_script.ld -Wl,-Map=stm32f4xx_drivers.map
+SRC_DIR 		=	./Src
+STARTUP_DIR 	=	./Startup
+SYSCALLS_DIR	=	./Syscalls
+DRIVERS_DIR 	=	./drivers
+OBJ_DIR 		=	./Obj
 
+CC 				= 	arm-none-eabi-gcc
+MACH 			= 	cortex-m4
+CFLAGS 			= 	-c -mcpu=$(MACH) -mthumb -mfloat-abi=soft -std=gnu11 -Wall -O0 -I$(DRIVERS_DIR)/Inc
+LDFLAGS			= 	-mcpu=$(MACH) -mthumb -mfloat-abi=soft --specs=nano.specs -T linker_script.ld -Wl,-Map=./$(OBJ_DIR)/stm32f4xx_drivers.map
+DEPFLAGS 		= 	-MMD -MP -MF $*.d
 
-all : ./Src/main.o ./Startup/startup.o ./Syscalls/syscalls.o ./Src/stm32f4xx_drivers.elf
+.PHONY: all clean
 
-./Src/main.o : ./Src/main.c
-	$(CC) $(CFLAGS) -o $@ $^
+all: ./$(OBJ_DIR)/stm32f4xx_drivers.elf
 
-./Startup/startup.o : ./Startup/startup.c
-	$(CC) $(CFLAGS) -o $@ $^
+./$(OBJ_DIR)/main.o: $(SRC_DIR)/main.c
+	$(CC) $(CFLAGS) $(DEPFLAGS) -o $@ $^
 
-./Syscalls/syscalls.o : ./Syscalls/syscalls.c
-	$(CC) $(CFLAGS) -o $@ $^
+./$(OBJ_DIR)/startup.o: $(STARTUP_DIR)/startup.c
+	$(CC) $(CFLAGS) $(DEPFLAGS) -o $@ $^
 
-./Src/stm32f4xx_drivers.elf : ./Src/main.o ./Startup/startup.o ./Syscalls/syscalls.o
+./$(OBJ_DIR)/syscalls.o: $(SYSCALLS_DIR)/syscalls.c
+	$(CC) $(CFLAGS) $(DEPFLAGS) -o $@ $^
+
+./$(OBJ_DIR)/stm32f4xx_drivers.elf: ./$(OBJ_DIR)/main.o ./$(OBJ_DIR)/startup.o ./$(OBJ_DIR)/syscalls.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
-clean :
-	rm -rf *.o *.elf ./Src/*.o ./Startup/*.o ./Syscalls/*.o ./Src/*.elf
+clean:
+	rm -rf *.o *.elf *.map $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)
+
+-include $(OBJ_DIR)/*.d

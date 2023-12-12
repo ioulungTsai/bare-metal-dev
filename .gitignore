@@ -1,6 +1,9 @@
 # Compiled Assembly files
 *.s
 
+# Dependency files
+*.d
+
 # Compiled Object files
 *.o
 *.out
