@@ -20,10 +20,13 @@ all: ./$(OBJ_DIR)/stm32f4xx_drivers.elf
 ./$(OBJ_DIR)/startup.o: $(STARTUP_DIR)/startup.c
 	$(CC) $(CFLAGS) $(DEPFLAGS) -o $@ $^
 
+./$(OBJ_DIR)/drivers.o: $(DRIVERS_DIR)/Src/*.c
+	$(CC) $(CFLAGS) $(DEPFLAGS) -o $@ $^
+
 ./$(OBJ_DIR)/syscalls.o: $(SYSCALLS_DIR)/syscalls.c
 	$(CC) $(CFLAGS) $(DEPFLAGS) -o $@ $^
 
-./$(OBJ_DIR)/stm32f4xx_drivers.elf: ./$(OBJ_DIR)/main.o ./$(OBJ_DIR)/startup.o ./$(OBJ_DIR)/syscalls.o
+./$(OBJ_DIR)/stm32f4xx_drivers.elf: ./$(OBJ_DIR)/main.o ./$(OBJ_DIR)/startup.o ./$(OBJ_DIR)/syscalls.o ./$(OBJ_DIR)/drivers.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 clean:

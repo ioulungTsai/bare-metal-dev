@@ -64,7 +64,7 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi)
     }
     else
     {
-         if (pGPIOx == GPIOA)
+        if (pGPIOx == GPIOA)
         {
             GPIOA_PCLK_DI();
         }
@@ -121,10 +121,12 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx)
 
 uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
 {
+    return 0;
 }
 
 uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx)
 {
+    return 0;
 }
 
 void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t Value)
