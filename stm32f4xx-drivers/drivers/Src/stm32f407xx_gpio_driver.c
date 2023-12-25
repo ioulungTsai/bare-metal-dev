@@ -109,6 +109,41 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi)
 
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 {   
+    uint32_t temp = 0; //temperary register
+
+    // 1. Configure the mode of GPIO pin
+    if(pGPIOHandle->GPIO_Pinconfig.GPIO_PinMode <= GPIO_MODE_ANALOG) {
+        temp = (pGPIOHandle->GPIO_Pinconfig.GPIO_PinMode << (2 * pGPIOHandle->GPIO_Pinconfig.GPIO_PinNumber));
+        pGPIOHandle->pGPIOx->MODER |= temp;
+    } else {
+        // This part reserve for interrupt mode
+    }
+    
+    temp = 0;
+
+    // 2. Configure the speed
+    temp = (pGPIOHandle->GPIO_Pinconfig.GPIO_PinOPSpeed << (2 * pGPIOHandle->GPIO_Pinconfig.GPIO_PinNumber));
+    pGPIOHandle->pGPIOx->OSPEEDR |= temp;
+
+    temp = 0;
+
+    // 3. Configure the pull up pull down setting
+    temp = (pGPIOHandle->GPIO_Pinconfig.GPIO_PinPuPdControl << (2 * pGPIOHandle->GPIO_Pinconfig.GPIO_PinNumber));
+    pGPIOHandle->pGPIOx->PUPDR |= temp;
+    
+    temp = 0;
+    
+    // 4. Configure the output type
+    temp = (pGPIOHandle->GPIO_Pinconfig.GPIO_PinOPType << pGPIOHandle->GPIO_Pinconfig.GPIO_PinNumber);
+    pGPIOHandle->pGPIOx->OTYPER |= temp;
+    
+    temp = 0;
+    
+    // 5. Configure the alternate functionality
+    if(pGPIOHandle->GPIO_Pinconfig.GPIO_PinMode == GPIO_MODE_ALTFN) {
+        // Configure the alternate function registers 
+    }
+
 }
 
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx)
