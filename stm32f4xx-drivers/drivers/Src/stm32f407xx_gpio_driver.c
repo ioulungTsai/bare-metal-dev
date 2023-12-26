@@ -219,10 +219,17 @@ uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx)
 
 void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t Value)
 {
+    if(Value == GPIO_PIN_SET) {
+        // Write 1 to the output data register at the bit field corresponding to the pin number
+        pGPIOx->ODR |= (1 << PinNumber); 
+    } else {
+        pGPIOx->ODR &= ~(1 << PinNumber);
+    }
 }
 
 void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t Value)
 {
+    pGPIOx->ODR = Value;
 }
 
 void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
