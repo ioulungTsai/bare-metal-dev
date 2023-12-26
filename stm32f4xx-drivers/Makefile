@@ -14,7 +14,7 @@ DEPFLAGS 		= 	-MMD -MP -MF $*.d
 
 all: ./$(OBJ_DIR)/stm32f4xx_drivers.elf
 
-./$(OBJ_DIR)/main.o: $(SRC_DIR)/main.c
+./$(OBJ_DIR)/001_led_toggle.o: $(SRC_DIR)/001_led_toggle.c
 	$(CC) $(CFLAGS) $(DEPFLAGS) -o $@ $^
 
 ./$(OBJ_DIR)/startup.o: $(STARTUP_DIR)/startup.c
@@ -26,11 +26,14 @@ all: ./$(OBJ_DIR)/stm32f4xx_drivers.elf
 ./$(OBJ_DIR)/syscalls.o: $(SYSCALLS_DIR)/syscalls.c
 	$(CC) $(CFLAGS) $(DEPFLAGS) -o $@ $^
 
-./$(OBJ_DIR)/stm32f4xx_drivers.elf: ./$(OBJ_DIR)/main.o ./$(OBJ_DIR)/startup.o ./$(OBJ_DIR)/syscalls.o ./$(OBJ_DIR)/drivers.o
+./$(OBJ_DIR)/stm32f4xx_drivers.elf: ./$(OBJ_DIR)/001_led_toggle.o ./$(OBJ_DIR)/startup.o ./$(OBJ_DIR)/syscalls.o ./$(OBJ_DIR)/drivers.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 clean:
 	rm -rf *.o *.elf *.map $(OBJ_DIR)
 	mkdir -p $(OBJ_DIR)
+
+load : 
+	openocd -f board/stm32f4discovery.cfg
 
 -include $(OBJ_DIR)/*.d
