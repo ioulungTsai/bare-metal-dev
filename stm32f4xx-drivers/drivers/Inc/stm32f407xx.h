@@ -82,6 +82,10 @@
  * Please check the Device Reference Manual
  */
 
+/*
+ * Peripheral register definition structure for GPIO
+ */
+
 typedef struct
 {
     __vo uint32_t MODER;                    /* GPIO port mode register                          Address offset: 0x00 */
@@ -95,6 +99,11 @@ typedef struct
     __vo uint32_t AFR[2];                   /* AF[0] GPIO alternate function low register       Address offset: 0x20 */
                                             /* AF[1] GPIO alternate function high register      Address offset: 0x24 */
 }GPIO_RegDef_t;
+
+
+/*
+ * Peripheral register definition structure for RCC
+ */
 
 typedef struct
 {
@@ -133,6 +142,23 @@ typedef struct
     
 }RCC_RegDef_t;
 
+
+/*
+ * Peripheral register definition structure for EXTI
+ */
+
+typedef struct
+{
+    __vo uint32_t IMR;                  /* Interrupt mask register                        Address offset: 0x00 */
+    __vo uint32_t EMR;                  /* Event mask register                            Address offset: 0x04 */
+    __vo uint32_t RTSR;                 /* Rising trigger selection register              Address offset: 0x08 */
+    __vo uint32_t FTSR;                 /* Falling trigger selection register             Address offset: 0x0C */
+    __vo uint32_t SWIER;                /* Software interrupt event register              Address offset: 0x10 */
+    __vo uint32_t PR;                   /* Pending register                               Address offset: 0x14 */
+
+}EXTI_RegDef_t;
+
+
 /*
  * Peripheral definitions (Peripheral base addresses typecasted to xxx_RegDef_t) 
  */
@@ -148,6 +174,8 @@ typedef struct
 #define GPIOI           ((GPIO_RegDef_t*) GPIOI_BASEADDR)
 
 #define RCC             ((RCC_RegDef_t*) RCC_BASEADDR)
+
+#define EXTI            ((EXTI_RegDef_t*) EXTI_BASEADDR)
 
 
 /*
@@ -261,7 +289,7 @@ typedef struct
 #define SET                   ENABLE
 #define RESET                 DISABLE
 #define GPIO_PIN_SET          SET
-#define GPIO_PIN_RESET        RESET
+#define GPIO_PIN_RESET        RESET 
 
 
 #include "stm32f407xx_gpio_driver.h"
