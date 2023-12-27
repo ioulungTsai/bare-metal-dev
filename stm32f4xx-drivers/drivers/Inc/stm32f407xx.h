@@ -254,8 +254,10 @@ typedef struct
 
 // General Macros
 
-#define ENABLE                1
-#define DISABLE               0
+#define HIGH                  1
+#define LOW                   0
+#define ENABLE                HIGH
+#define DISABLE               LOW
 #define SET                   ENABLE
 #define RESET                 DISABLE
 #define GPIO_PIN_SET          SET
