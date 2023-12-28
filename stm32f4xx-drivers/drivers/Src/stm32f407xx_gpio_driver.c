@@ -135,6 +135,11 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
         }
 
         // 2. Configure the GPIO port selection in SYSCFG_EXTICR
+        uint8_t temp1 = pGPIOHandle->GPIO_Pinconfig.GPIO_PinNumber / 4;
+        uint8_t temp2 = pGPIOHandle->GPIO_Pinconfig.GPIO_PinNumber % 4;
+        uint8_t portcode = GPIO_BASEADDR_TO_CODE(pGPIOHandle->pGPIOx);
+        SYSCFG_PCLK_EN();
+        SYSCFG->EXTICR[temp1] =  portcode << (4 * temp2);
 
         // 3. Enable the EXTI Interrupt delivery using IMR
         EXTI->IMR |= (1 << pGPIOHandle->GPIO_Pinconfig.GPIO_PinNumber);

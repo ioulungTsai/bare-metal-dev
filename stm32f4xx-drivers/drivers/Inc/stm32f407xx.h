@@ -169,7 +169,7 @@ typedef struct
     __vo uint32_t PMC;                       /* SYSCFG peripheral mode configuration register            Address offset: 0x04          */
     __vo uint32_t EXTICR[4];                 /* SYSCFG external interrupt configuration register 1-4     Address offset: 0x08-0x14     */
          uint32_t RESERVED[2];               /* Reserved                                                 Address offset: 0x18-0x1C     */
-    __vo uint32_t CMPCR;                     /* Compensation cell control register                       Address offset: 0x20          */                  Address offset: 0x14 */
+    __vo uint32_t CMPCR;                     /* Compensation cell control register                       Address offset: 0x20          */
 
 }SYSCFG_RegDef_t;
 
@@ -191,6 +191,8 @@ typedef struct
 #define RCC             ((RCC_RegDef_t*) RCC_BASEADDR)
 
 #define EXTI            ((EXTI_RegDef_t*) EXTI_BASEADDR)
+
+#define SYSCFG          ((SYSCFG_RegDef_t*) SYSCFG_BASEADDR)
 
 
 /*
@@ -294,6 +296,37 @@ typedef struct
 #define GPIOG_REG_RESET()       do{ (RCC->AHB1RSTR |= (1 << 6)); (RCC->AHB1ENR &= ~(1 << 6)); } while(0)
 #define GPIOH_REG_RESET()       do{ (RCC->AHB1RSTR |= (1 << 7)); (RCC->AHB1ENR &= ~(1 << 7)); } while(0)
 #define GPIOI_REG_RESET()       do{ (RCC->AHB1RSTR |= (1 << 8)); (RCC->AHB1ENR &= ~(1 << 8)); } while(0)
+
+
+/*
+ * Returns port code for given GPIOx base address
+ */
+
+#define GPIO_BASEADDR_TO_CODE(x)        ((x == GPIOA)? 0:\
+                                         (x == GPIOA)? 1:\
+                                         (x == GPIOA)? 2:\
+                                         (x == GPIOA)? 3:\
+                                         (x == GPIOA)? 4:\
+                                         (x == GPIOA)? 5:\
+                                         (x == GPIOA)? 6:\
+                                         (x == GPIOA)? 7:\
+                                         (x == GPIOA)? 8:0)
+
+
+/*
+ * IRQ(Interrupt Request) Numbers of STM32F407x MCU
+ * NOTE: update these macros with valid values according to your MCU
+ * TODO: You may complete this list for other peripherals
+ */
+
+#define IRQ_NO_EXTI0 		6
+#define IRQ_NO_EXTI1 		7
+#define IRQ_NO_EXTI2 		8
+#define IRQ_NO_EXTI3 		9
+#define IRQ_NO_EXTI4 		10
+#define IRQ_NO_EXTI9_5 		23
+#define IRQ_NO_EXTI15_10 	40
+
 
 // General Macros
 
