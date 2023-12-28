@@ -303,14 +303,14 @@ typedef struct
  */
 
 #define GPIO_BASEADDR_TO_CODE(x)        ((x == GPIOA)? 0:\
-                                         (x == GPIOA)? 1:\
-                                         (x == GPIOA)? 2:\
-                                         (x == GPIOA)? 3:\
-                                         (x == GPIOA)? 4:\
-                                         (x == GPIOA)? 5:\
-                                         (x == GPIOA)? 6:\
-                                         (x == GPIOA)? 7:\
-                                         (x == GPIOA)? 8:0)
+                                         (x == GPIOB)? 1:\
+                                         (x == GPIOC)? 2:\
+                                         (x == GPIOD)? 3:\
+                                         (x == GPIOE)? 4:\
+                                         (x == GPIOF)? 5:\
+                                         (x == GPIOG)? 6:\
+                                         (x == GPIOH)? 7:\
+                                         (x == GPIOI)? 8:0)
 
 
 /*
