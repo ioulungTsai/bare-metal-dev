@@ -28,6 +28,20 @@
 #define NVIC_ICER3                      ((__vo uint32_t*)0xE000E18c)
 
 
+/*
+ * ARM Cortex Mx Processor Priority Register Address Calculation
+ */
+
+#define NVIC_PR_BASE_ADDR               ((__vo uint32_t*)0xE000E400)
+
+
+/*
+ * ARM Cortex Mx Processor number of priority bits implemented in Priority Register
+ */
+
+#define NO_PR_BITS_IMPLEMENTED          4
+
+
 /* 
  * base address of Flash and SRAM memories
  */
