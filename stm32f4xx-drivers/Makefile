@@ -6,7 +6,7 @@ OBJ_DIR 		=	./Obj
 
 CC 				= 	arm-none-eabi-gcc
 MACH 			= 	cortex-m4
-CFLAGS 			= 	-c -mcpu=$(MACH) -mthumb -mfloat-abi=soft -std=gnu11 -Wall -O0 -I$(DRIVERS_DIR)/Inc
+CFLAGS 			= 	-c -mcpu=$(MACH) -mthumb -mfloat-abi=soft -std=gnu11 -Wall -Og -g3 -I$(DRIVERS_DIR)/Inc
 LDFLAGS			= 	-mcpu=$(MACH) -mthumb -mfloat-abi=soft --specs=nano.specs -T linker_script.ld -Wl,-Map=./$(OBJ_DIR)/stm32f4xx_drivers.map
 DEPFLAGS 		= 	-MMD -MP -MF $*.d
 
