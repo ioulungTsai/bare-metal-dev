@@ -14,7 +14,7 @@ DEPFLAGS 		= 	-MMD -MP -MF $*.d
 
 all: ./$(OBJ_DIR)/stm32f4xx_drivers.elf
 
-./$(OBJ_DIR)/003_led_button_ext.o: $(SRC_DIR)/003_led_button_ext.c
+./$(OBJ_DIR)/004_button_interrupt.o: $(SRC_DIR)/004_button_interrupt.c
 	$(CC) $(CFLAGS) $(DEPFLAGS) -o $@ $^
 
 ./$(OBJ_DIR)/startup.o: $(STARTUP_DIR)/startup.c
@@ -26,7 +26,7 @@ all: ./$(OBJ_DIR)/stm32f4xx_drivers.elf
 ./$(OBJ_DIR)/syscalls.o: $(SYSCALLS_DIR)/syscalls.c
 	$(CC) $(CFLAGS) $(DEPFLAGS) -o $@ $^
 
-./$(OBJ_DIR)/stm32f4xx_drivers.elf: ./$(OBJ_DIR)/003_led_button_ext.o ./$(OBJ_DIR)/startup.o ./$(OBJ_DIR)/syscalls.o ./$(OBJ_DIR)/drivers.o
+./$(OBJ_DIR)/stm32f4xx_drivers.elf: ./$(OBJ_DIR)/004_button_interrupt.o ./$(OBJ_DIR)/startup.o ./$(OBJ_DIR)/syscalls.o ./$(OBJ_DIR)/drivers.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 clean:
