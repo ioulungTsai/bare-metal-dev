@@ -12,7 +12,7 @@
 #include "stm32f407xx.h"
 
 /*
- * This is a Configuration structure for a GPIO pin   
+ * Configuration structure for a GPIO pin   
  */
 
 typedef struct
@@ -28,7 +28,7 @@ typedef struct
 
 
 /*
- * This is a Handle structure for a GPIO pin 
+ * Handle structure for a GPIO pin 
  */
 
 typedef struct
