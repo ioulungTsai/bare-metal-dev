@@ -1,4 +1,5 @@
 
+// #include <string.h>
 #include "stm32f407xx.h"
 
 #define BTN_PRESSED LOW
@@ -11,6 +12,9 @@ void delay(void)
 int main(void)
 {
     GPIO_Handle_t GpioLed, GpioBtn;
+
+    memset(&GpioLed,0,sizeof(GpioLed));
+	memset(&GpioBtn,0,sizeof(GpioLed));
 
     GpioLed.pGPIOx = GPIOD;
     GpioLed.GPIO_Pinconfig.GPIO_PinNumber = GPIO_PIN_NO_12;
