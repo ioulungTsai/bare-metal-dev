@@ -6,14 +6,14 @@ OBJ_DIR 		=	./Obj
 
 CC 				= 	arm-none-eabi-gcc
 MACH 			= 	cortex-m4
-CFLAGS 			= 	-c -mcpu=$(MACH) -mthumb -mfloat-abi=soft -std=gnu11 -Wall -Og -g3 -I$(DRIVERS_DIR)/Inc
+CFLAGS 			= 	-c -mcpu=$(MACH) -mthumb -mfloat-abi=soft -std=gnu11 -Wall -O0 -g3 -I$(DRIVERS_DIR)/Inc
 LDFLAGS			= 	-mcpu=$(MACH) -mthumb -mfloat-abi=soft --specs=nano.specs -T linker_script.ld -Wl,-Map=./$(OBJ_DIR)/stm32f4xx_drivers.map
 DEPFLAGS 		= 	-MMD -MP -MF $*.d
 
 FILE			=   file
 SRC				=	$(notdir $(FILE))
 OBJ				=	$(SRC:.c=.o)
-SRCS 			= 	$(shell find $(STARTUP_DIR) $(DRIVERS_DIR) $(SYSCALLS_DIR) -name '*.c' -or -name '*.s') $(SRC)
+SRCS 			= 	$(shell find $(STARTUP_DIR) $(DRIVERS_DIR) $(SYSCALLS_DIR) -name '*.c') $(SRC)
 OBJS 			=   $(addprefix $(OBJ_DIR)/,$(notdir $(SRCS:.c=.o)))
 
 
