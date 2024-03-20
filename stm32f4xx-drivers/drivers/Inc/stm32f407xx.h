@@ -348,7 +348,7 @@ typedef struct
 
 
 /*
- * Clock Disable Macros for SYSCFG peripherals
+ * Macros to reset GPIOx peripherals
  */
 
 #define GPIOA_REG_RESET()       do{ (RCC->AHB1RSTR |= (1 << 0)); (RCC->AHB1ENR &= ~(1 << 0)); } while(0)
@@ -363,7 +363,7 @@ typedef struct
 
 
 /*
- * Returns port code for given GPIOx base address
+ * Returns port code (0 - 7) for a given GPIOx base address
  */
 
 #define GPIO_BASEADDR_TO_CODE(x)        ((x == GPIOA)? 0:\
