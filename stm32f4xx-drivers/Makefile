@@ -13,7 +13,7 @@ DEPFLAGS 		= 	-MMD -MP -MF $*.d
 FILE			=   file
 SRC				=	$(notdir $(FILE))
 OBJ				=	$(SRC:.c=.o)
-SRCS 			= 	$(shell find $(STARTUP_DIR) $(DRIVERS_DIR) $(SYSCALLS_DIR) -name '*.c') $(SRC)
+SRCS 			= 	$(shell find $(STARTUP_DIR) $(DRIVERS_DIR) $(SYSCALLS_DIR) -name *.c) $(SRC)
 OBJS 			=   $(addprefix $(OBJ_DIR)/,$(notdir $(SRCS:.c=.o)))
 
 
