@@ -116,7 +116,7 @@ uint8_t SPI_GetFlagStstus(SPI_RegDef_t *pSPIx, uint32_t FlagName)
 }
 
 /*
- * SPI Send Data 
+ * SPI Send Data - This implement is a Blocking Call
  */
 
 void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t Len)
@@ -126,5 +126,19 @@ void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t Len)
         while(SPI_GetFlagStstus(pSPIx, SPI_TXE_FLAG) == FLAG_RESET);
 
         // 2. Check the DFF bit in CR1
+        if(pSPIx->CR1 & (1 << SPI_CR1_DFF))
+        {
+            // 16 bit DFF
+            // 1. Load the data into the DR
+            pSPIx->DR = *((uint16_t*)pTxBuffer);
+            Len--;
+            Len--;
+            (uint16_t*)pTxBuffer++;
+        } else {
+            // 8 bit DFF
+            pSPIx->DR = *pTxBuffer;
+            Len--;
+            pTxBuffer++;
+        }
     }
 }
