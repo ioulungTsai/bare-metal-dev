@@ -106,6 +106,10 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx)
 }
 
 
+/*
+ * SPI Get Flag Status
+ */
+
 uint8_t SPI_GetFlagStstus(SPI_RegDef_t *pSPIx, uint32_t FlagName)
 {
     if(pSPIx->SR & FlagName)
@@ -114,6 +118,7 @@ uint8_t SPI_GetFlagStstus(SPI_RegDef_t *pSPIx, uint32_t FlagName)
     }
     return FLAG_RESET;
 }
+
 
 /*
  * SPI Send Data - This implement is a Blocking Call
@@ -139,6 +144,35 @@ void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t Len)
             pSPIx->DR = *pTxBuffer;
             Len--;
             pTxBuffer++;
+        }
+    }
+}
+
+
+/*
+ * SPI Receive Data - This implement is a Blocking Call
+ */
+
+void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t Len)
+{
+    while(Len > 0) {
+        // 1. Wait until RXE is set
+        while(SPI_GetFlagStstus(pSPIx, SPI_RXNE_FLAG) == FLAG_RESET);
+
+        // 2. Check the DFF bit in CR1
+        if(pSPIx->CR1 & (1 << SPI_CR1_DFF))
+        {
+            // 16 bit DFF
+            // 1. Load the data from DR to Rx Buffer address
+            *((uint16_t*)pRxBuffer) = pSPIx->DR;
+            Len--;
+            Len--;
+            (uint16_t*)pRxBuffer++;
+        } else {
+            // 8 bit DFF
+            *pRxBuffer = pSPIx->DR;
+            Len--;
+            pRxBuffer++;
         }
     }
 }
