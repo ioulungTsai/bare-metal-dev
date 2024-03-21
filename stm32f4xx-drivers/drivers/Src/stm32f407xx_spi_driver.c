@@ -99,3 +99,32 @@ void SPI_Init(SPI_Handle_t *pSPIHandle)
 
     pSPIHandle->pSPIx->CR1 = tempReg;
 }
+
+void SPI_DeInit(SPI_RegDef_t *pSPIx)
+{
+ //todo
+}
+
+
+uint8_t SPI_GetFlagStstus(SPI_RegDef_t *pSPIx, uint32_t FlagName)
+{
+    if(pSPIx->SR & FlagName)
+    {
+        return FLAG_SET;
+    }
+    return FLAG_RESET;
+}
+
+/*
+ * SPI Send Data 
+ */
+
+void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t Len)
+{
+    while(Len > 0) {
+        // 1. Wait until TXE is set
+        while(SPI_GetFlagStstus(pSPIx, SPI_TXE_FLAG) == FLAG_RESET);
+
+        // 2. Check the DFF bit in CR1
+    }
+}
