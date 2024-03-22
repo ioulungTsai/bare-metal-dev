@@ -1,5 +1,5 @@
 
-// #include <string.h>
+#include <string.h>
 #include "stm32f407xx.h"
 
 #define BTN_PRESSED LOW
