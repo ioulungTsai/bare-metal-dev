@@ -150,6 +150,8 @@ void SPI_IRQHandling(SPI_Handle_t *pSPIHandle);
  * Other Peripheral Control APIs
  */
 
+void SPI_PeripheralControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
+
 
 /*
  * Application callback
