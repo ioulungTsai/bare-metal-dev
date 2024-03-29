@@ -197,3 +197,18 @@ void SPI_PeripheralControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
         pSPIx->CR1 &= ~(1 << SPI_CR1_SPE);
     }
 }
+
+
+/*
+ * SPI SSI Configure
+ */
+
+void SPI_SSIConfig(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
+{
+    if(EnorDi == ENABLE)
+    {
+        pSPIx->CR1 |= (1 << SPI_CR1_SSI);
+    } else {
+        pSPIx->CR1 &= ~(1 << SPI_CR1_SSI);
+    }
+}
