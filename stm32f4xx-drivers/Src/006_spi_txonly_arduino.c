@@ -62,6 +62,14 @@ int main(void)
 
     SPI2_Inits(); // This function is used to initialize the SPI2 peripheral parameters
 
+    /*
+	* making SSOE 1 does NSS output enable.
+	* The NSS pin is automatically managed by the hardware.
+	* i.e when SPE=1 , NSS will be pulled to low
+	* and NSS pin will be high when SPE=0
+	*/
+    SPI_SSOEConfig(SPI2, ENABLE);
+
     SPI_PeripheralControl(SPI2, ENABLE); // Enable the SPI2 peripheral
 
     SPI_SendData(SPI2, (uint8_t *)user_data, strlen(user_data));
