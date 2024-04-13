@@ -10,6 +10,11 @@
  * ALT Function : 5
 */
 
+void delay(void)
+{
+    for(uint32_t i=0; i < 500000; i++);
+}
+
 void SPI2_GPIOInits(void)
 {
     GPIO_Handle_t SPIPins;
@@ -54,9 +59,24 @@ void SPI2_Inits(void)
     SPI_Init(&SPI2Handle);
 }
 
+ void GPIO_ButtonInit(void)
+ {
+    GPIO_Handle_t GpioBtn;
+
+    GpioBtn.pGPIOx = GPIOA;
+    GpioBtn.GPIO_Pinconfig.GPIO_PinNumber = GPIO_PIN_NO_0;
+    GpioBtn.GPIO_Pinconfig.GPIO_PinMode = GPIO_MODE_IN;
+    GpioBtn.GPIO_Pinconfig.GPIO_PinOPSpeed = GPIO_OUT_SPEED_FAST;
+    GpioBtn.GPIO_Pinconfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+
+    GPIO_Init(&GpioBtn);
+ }
+
 int main(void)
 {
     char user_data[] = "Hello World!";
+
+    GPIO_ButtonInit();
 
     SPI2_GPIOInits(); // This function is used to initialize the GPIO pins to behave as SPI2 pins
 
@@ -69,14 +89,19 @@ int main(void)
 	* and NSS pin will be high when SPE=0
 	*/
     SPI_SSOEConfig(SPI2, ENABLE);
+    
+    while(1)
+    {
+        while( ! GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0) );
 
-    SPI_PeripheralControl(SPI2, ENABLE); // Enable the SPI2 peripheral
+        delay();
 
-    SPI_SendData(SPI2, (uint8_t *)user_data, strlen(user_data));
+        SPI_PeripheralControl(SPI2, ENABLE); // Enable the SPI2 peripheral
 
-    SPI_PeripheralControl(SPI2, DISABLE); // Disable the SPI2 peripheral 
+        SPI_SendData(SPI2, (uint8_t *)user_data, strlen(user_data));
 
-    while(1);
+        SPI_PeripheralControl(SPI2, DISABLE); // Disable the SPI2 peripheral 
+    }
 
     return 0;
 }
