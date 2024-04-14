@@ -98,7 +98,9 @@ int main(void)
 
         SPI_PeripheralControl(SPI2, ENABLE); // Enable the SPI2 peripheral
 
-        SPI_SendData(SPI2, (uint8_t *)user_data, strlen(user_data));
+        SPI_SendData(SPI2, (uint8_t *)user_data, strlen(user_data)); // Send data
+
+        while( SPI_GetFlagStatus(SPI2, SPI_BSY_FLAG) ); // Check if SPI busy
 
         SPI_PeripheralControl(SPI2, DISABLE); // Disable the SPI2 peripheral 
     }
