@@ -98,6 +98,10 @@ int main(void)
 
         SPI_PeripheralControl(SPI2, ENABLE); // Enable the SPI2 peripheral
 
+        uint8_t dataLen = strlen(user_data); // data length
+
+        SPI_SendData(SPI2, &dataLen, 1); // Send data length information
+
         SPI_SendData(SPI2, (uint8_t *)user_data, strlen(user_data)); // Send data
 
         while( SPI_GetFlagStatus(SPI2, SPI_BSY_FLAG) ); // Check if SPI busy
