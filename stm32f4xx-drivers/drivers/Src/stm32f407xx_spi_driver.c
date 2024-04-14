@@ -116,7 +116,7 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx)
  * SPI Get Flag Status
  */
 
-uint8_t SPI_GetFlagStstus(SPI_RegDef_t *pSPIx, uint32_t FlagName)
+uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx, uint32_t FlagName)
 {
     if(pSPIx->SR & FlagName)
     {
@@ -134,7 +134,7 @@ void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t Len)
 {
     while(Len > 0) {
         // 1. Wait until TXE is set
-        while(SPI_GetFlagStstus(pSPIx, SPI_TXE_FLAG) == FLAG_RESET);
+        while(SPI_GetFlagStatus(pSPIx, SPI_TXE_FLAG) == FLAG_RESET);
 
         // 2. Check the DFF bit in CR1
         if(pSPIx->CR1 & (1 << SPI_CR1_DFF))
@@ -163,7 +163,7 @@ void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t Len)
 {
     while(Len > 0) {
         // 1. Wait until RXE is set
-        while(SPI_GetFlagStstus(pSPIx, SPI_RXNE_FLAG) == FLAG_RESET);
+        while(SPI_GetFlagStatus(pSPIx, SPI_RXNE_FLAG) == FLAG_RESET);
 
         // 2. Check the DFF bit in CR1
         if(pSPIx->CR1 & (1 << SPI_CR1_DFF))
