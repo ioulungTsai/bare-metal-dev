@@ -191,19 +191,19 @@ int main(void)
 
             // Send arguments
             SPI_SendData(SPI2, args, 1);
+
+            // Do dummy read to clear off the RXNE
+            SPI_ReceiveData(SPI2, &dummy_read, 1);
+
+            // Add some delay to allow the slave to be ready with the data
+            delay();
+
+            // Send some dummy bits (1byte) to fetch the response from the slave
+            SPI_SendData(SPI2, &dummy_write, 1);
+
+            uint8_t analog_read;
+            SPI_ReceiveData(SPI2, &analog_read, 1);
         }
-
-        // Do dummy read to clear off the RXNE
-        SPI_ReceiveData(SPI2, &dummy_read, 1);
-
-        // Add some delay to allow the slave to be ready with the data
-        delay();
-
-        // Send some dummy bits (1byte) to fetch the response from the slave
-        SPI_SendData(SPI2, &dummy_write, 1);
-
-        uint8_t analog_read;
-        SPI_ReceiveData(SPI2, &analog_read, 1);
 
 
         while( SPI_GetFlagStatus(SPI2, SPI_BSY_FLAG) ); // Check if SPI busy
