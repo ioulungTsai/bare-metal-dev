@@ -32,7 +32,7 @@
 
 void delay(void)
 {
-    for(uint32_t i=0; i < 500000/40; i++); // ~10ms
+    for(uint32_t i=0; i < 500000; i++); // ~10ms
 }
 
 void SPI2_GPIOInits(void)
@@ -240,6 +240,46 @@ int main(void)
 
             uint8_t led_status;
             SPI_ReceiveData(SPI2, &led_status, 1);
+        }
+
+        // 4. CMD_PRINT <len(1)>    <message(len)>
+        while( ! GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0) );
+
+        delay();
+
+        commandCode = COMMAND_PRINT;
+
+        // Send Command
+        SPI_SendData(SPI2, &commandCode, 1);
+
+        // Do dummy read to clear off the RXNE
+        SPI_ReceiveData(SPI2, &dummy_read, 1);
+        
+        // Send some dummy bits (1byte) to fetch the response from the slave
+        SPI_SendData(SPI2, &dummy_write, 1);
+
+        // Read the ack byte received
+        SPI_ReceiveData(SPI2, &ackByte, 1);
+
+        uint8_t message[] = "Hello ! You can do it ! !";
+        if ( SPI_VerifyResponse(ackByte) )
+        {
+            args[0] = strlen((char*)message);
+
+            // Send arguments
+            SPI_SendData(SPI2, args, 1);
+
+            // Do dummy read to clear off the RXNE
+            SPI_ReceiveData(SPI2, &dummy_read, 1);
+
+            // Add some delay to allow the slave to be ready with the data
+            delay();
+
+            // Send the message
+            for(int i = 0; i < args[0]; i++) {
+                SPI_SendData(SPI2, &message[i], 1);
+                SPI_ReceiveData(SPI2, &dummy_read, 1);
+            }
         }
 
 
