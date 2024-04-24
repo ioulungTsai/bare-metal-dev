@@ -32,7 +32,7 @@
 
 void delay(void)
 {
-    for(uint32_t i=0; i < 500000; i++);
+    for(uint32_t i=0; i < 500000/40; i++); // ~10ms
 }
 
 void SPI2_GPIOInits(void)
@@ -138,8 +138,7 @@ int main(void)
 
         SPI_PeripheralControl(SPI2, ENABLE); // Enable the SPI2 peripheral
 
-        // 1. CMD_LED_CTRL  <Pin No.(0)>    <Value(1)>
-        
+        // 1. CMD_LED_CTRL  <Pin No.(1)>    <Value(1)>
         uint8_t commandCode = COMMAND_LED_CTRL;
         uint8_t ackByte;
         uint8_t args[2];
@@ -166,7 +165,6 @@ int main(void)
         }
 
         // 2. CMD_SENSOR_READ   <Analog Pin Number(1)>
-
         while( ! GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0) );
 
         delay();
@@ -203,6 +201,45 @@ int main(void)
 
             uint8_t analog_read;
             SPI_ReceiveData(SPI2, &analog_read, 1);
+        }
+
+        // 3. CMD_LED_READ  <Pin No.(1)>
+        while( ! GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0) );
+
+        delay();
+
+        commandCode = COMMAND_LED_READ;
+
+        // Send Command
+        SPI_SendData(SPI2, &commandCode, 1);
+
+        // Do dummy read to clear off the RXNE
+        SPI_ReceiveData(SPI2, &dummy_read, 1);
+        
+        // Send some dummy bits (1byte) to fetch the response from the slave
+        SPI_SendData(SPI2, &dummy_write, 1);
+        
+        // Read the ack byte received
+        SPI_ReceiveData(SPI2, &ackByte, 1);
+
+        if ( SPI_VerifyResponse(ackByte) )
+        {
+            args[0] = LED_PIN;
+
+            // Send arguments
+            SPI_SendData(SPI2, args, 1);
+
+            // Do dummy read to clear off the RXNE
+            SPI_ReceiveData(SPI2, &dummy_read, 1);
+
+            // Add some delay to allow the slave to be ready with the data
+            delay();
+
+            // Send some dummy bits (1byte) to fetch the response from the slave
+            SPI_SendData(SPI2, &dummy_write, 1);
+
+            uint8_t led_status;
+            SPI_ReceiveData(SPI2, &led_status, 1);
         }
 
 
