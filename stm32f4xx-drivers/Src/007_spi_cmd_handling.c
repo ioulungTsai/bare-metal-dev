@@ -282,6 +282,40 @@ int main(void)
             }
         }
 
+        // 5. CMD_ID_READ
+        while( ! GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0) );
+
+        delay();
+
+        commandCode = COMMAND_ID_READ;
+
+        // Send Command
+        SPI_SendData(SPI2, &commandCode, 1);
+
+        // Do dummy read to clear off the RXNE
+        SPI_ReceiveData(SPI2, &dummy_read, 1);
+        
+        // Send some dummy bits (1byte) to fetch the response from the slave
+        SPI_SendData(SPI2, &dummy_write, 1);
+        
+        // Read the ack byte received
+        SPI_ReceiveData(SPI2, &ackByte, 1);
+
+        uint8_t id[11];
+        uint32_t i = 0;
+
+        if ( SPI_VerifyResponse(ackByte) )
+        {
+            // Read 10 bytes id from the slave
+            for(i = 0; i < 10; i++) {
+                // Send dummy byte to fetch data from slave
+                SPI_SendData(SPI2, &dummy_write, 1);
+                SPI_ReceiveData(SPI2, &id[i], 1);
+            }
+
+            id[10] = '\0';
+        }
+
 
         while( SPI_GetFlagStatus(SPI2, SPI_BSY_FLAG) ); // Check if SPI busy
 
