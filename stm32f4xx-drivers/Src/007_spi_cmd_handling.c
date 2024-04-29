@@ -1,6 +1,9 @@
 
+#include <stdio.h>
 #include <string.h>
 #include "stm32f407xx.h"
+
+extern void initialise_monitor_handles(void);
 
 /*
  * PB14 --> SPI2_MISO
@@ -115,6 +118,10 @@ int main(void)
 {
     uint8_t dummy_write = 0xff;
     uint8_t dummy_read;
+
+	initialise_monitor_handles();
+
+    printf("Application is running...\n");
 
     GPIO_ButtonInit();
 
