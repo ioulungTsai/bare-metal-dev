@@ -129,6 +129,8 @@ int main(void)
 
     SPI2_Inits(); // This function is used to initialize the SPI2 peripheral parameters
 
+    printf("SPI Init. Done!\n");
+
     /*
 	* making SSOE 1 does NSS output enable.
 	* The NSS pin is automatically managed by the hardware.
@@ -169,6 +171,8 @@ int main(void)
 
             // Send arguments
             SPI_SendData(SPI2, args, 2);
+
+            printf("COMMAND_LED_CTRL: Executed!\n");
         }
 
         // 2. CMD_SENSOR_READ   <Analog Pin Number(1)>
@@ -208,6 +212,8 @@ int main(void)
 
             uint8_t analog_read;
             SPI_ReceiveData(SPI2, &analog_read, 1);
+
+            printf("COMMAND_SENSOR_READ: The Value = %d\n", analog_read);
         }
 
         // 3. CMD_LED_READ  <Pin No.(1)>
@@ -247,6 +253,8 @@ int main(void)
 
             uint8_t led_status;
             SPI_ReceiveData(SPI2, &led_status, 1);
+
+            printf("COMMAND_LED_READ: The Status = %d\n", led_status);
         }
 
         // 4. CMD_PRINT <len(1)>    <message(len)>
@@ -287,6 +295,8 @@ int main(void)
                 SPI_SendData(SPI2, &message[i], 1);
                 SPI_ReceiveData(SPI2, &dummy_read, 1);
             }
+
+            printf("COMMAND_PRINT: Executed!\n");
         }
 
         // 5. CMD_ID_READ
@@ -321,12 +331,16 @@ int main(void)
             }
 
             id[10] = '\0';
+
+            printf("COMMAND_ID_READ: The ID = %s\n", id);
         }
 
 
         while( SPI_GetFlagStatus(SPI2, SPI_BSY_FLAG) ); // Check if SPI busy
 
-        SPI_PeripheralControl(SPI2, DISABLE); // Disable the SPI2 peripheral 
+        SPI_PeripheralControl(SPI2, DISABLE); // Disable the SPI2 peripheral
+
+        printf("SPI Communication Closed!");
     }
 
     return 0;
