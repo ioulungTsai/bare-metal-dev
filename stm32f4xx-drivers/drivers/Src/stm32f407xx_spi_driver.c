@@ -395,10 +395,7 @@ static void spi_txe_interrupt_handle(SPI_Handle_t *pSPIHandle)
         // TX is over.
 
         // This prevents interrupts from setting up of TXE flag
-        pSPIHandle->pSPIx->CR2 &= ~( 1 << SPI_CR2_TXEIE );
-        pSPIHandle->pTxBuffer = NULL;
-        pSPIHandle->TxLen = 0;
-        pSPIHandle->TxState = SPI_READY;
+        SPI_CloseTransmission(pSPIHandle);
         SPI_ApplicationEventCallback(pSPIHandle, SPI_EVENT_TX_CMPLT);
     }
 }
@@ -424,11 +421,7 @@ static void spi_rxne_interrupt_handle(SPI_Handle_t *pSPIHandle)
     if(!pSPIHandle->TxLen)
     {
         // Reception is complete
-        // Turn off the RXNEIE interrupt
-        pSPIHandle->pSPIx->CR2 &= ~( 1 << SPI_CR2_RXNEIE );
-        pSPIHandle->pRxBuffer = NULL;
-        pSPIHandle->RxLen = 0;
-        pSPIHandle->RxState = SPI_READY;
+        SPI_CloseReception(pSPIHandle);
         SPI_ApplicationEventCallback(pSPIHandle, SPI_EVENT_RX_CMPLT);
     }
 }
@@ -446,6 +439,23 @@ static void spi_ovr_err_interrupt_handle(SPI_Handle_t *pSPIHandle)
 
     // 2. Inform the application
     SPI_ApplicationEventCallback(pSPIHandle, SPI_EVENT_OVR_ERR);
+}
+
+
+void SPI_CloseTransmission(SPI_Handle_t *pSPIHandle)
+{
+    pSPIHandle->pSPIx->CR2 &= ~( 1 << SPI_CR2_TXEIE );
+    pSPIHandle->pTxBuffer = NULL;
+    pSPIHandle->TxLen = 0;
+    pSPIHandle->TxState = SPI_READY;
+}
+
+void SPI_CloseReception(SPI_Handle_t *pSPIHandle)
+{
+    pSPIHandle->pSPIx->CR2 &= ~( 1 << SPI_CR2_RXNEIE );
+    pSPIHandle->pRxBuffer = NULL;
+    pSPIHandle->RxLen = 0;
+    pSPIHandle->RxState = SPI_READY;
 }
 
 
