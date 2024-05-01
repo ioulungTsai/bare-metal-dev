@@ -437,3 +437,9 @@ static void spi_ovr_err_interrupt_handle(SPI_Handle_t *pSPIHandle)
 {
 
 }
+
+
+__weak void SPI_ApplicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t AppEvent)
+{
+    // This is a weak implementation . the user application may override this function.
+}

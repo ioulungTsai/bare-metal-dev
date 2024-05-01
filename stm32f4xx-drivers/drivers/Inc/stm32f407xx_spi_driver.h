@@ -188,5 +188,9 @@ uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx, uint32_t FlagName);
  * Application callback
  */
 
+void SPI_ApplicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t AppEvent);
+
+
+
 
 #endif /* INC_STM32F407XX_SPI_DRIVER_H_ */
