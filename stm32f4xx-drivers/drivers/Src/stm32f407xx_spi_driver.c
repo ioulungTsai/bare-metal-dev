@@ -7,6 +7,10 @@
 
 #include "stm32f407xx_spi_driver.h"
 
+static void spi_txe_interrupt_handle(SPI_Handle_t *pSPIHandle);
+static void spi_rxne_interrupt_handle(SPI_Handle_t *pSPIHandle);
+static void spi_ovr_err_interrupt_handle(SPI_Handle_t *pSPIHandle);
+
 
 /*********************************************************************
  * @fn      		  - SPI_PeriClockControl
@@ -342,7 +346,7 @@ void SPI_IRQHandling(SPI_Handle_t *pSPIHandle)
 
     if (temp1 && temp2) {
         // Handle TXE
-        spi_txe_interrupt_handle();
+        spi_txe_interrupt_handle(pSPIHandle);
     }
 
     // 2. Check for RXNE
@@ -351,7 +355,7 @@ void SPI_IRQHandling(SPI_Handle_t *pSPIHandle)
 
     if (temp1 && temp2) {
         // Handle RXNE
-        spi_rxne_interrupt_handle();
+        spi_rxne_interrupt_handle(pSPIHandle);
     }
 
     // 3. Check for OVR flag
@@ -360,22 +364,51 @@ void SPI_IRQHandling(SPI_Handle_t *pSPIHandle)
 
     if (temp1 && temp2) {
         // Handle RXNE
-        spi_ovr_err_interrupt_handle();
+        spi_ovr_err_interrupt_handle(pSPIHandle);
     }
 }
 
 
-void spi_txe_interrupt_handle(void)
+// Helper functions implementation
+
+static void spi_txe_interrupt_handle(SPI_Handle_t *pSPIHandle)
+{
+    // 1. Check the DFF bit in CR1
+    if(pSPIHandle->pSPIx->CR1 & (1 << SPI_CR1_DFF))
+    {
+        // 16 bit DFF
+        // 1. Load the data into the DR
+        pSPIHandle->pSPIx->DR = *((uint16_t*)pSPIHandle->pTxBuffer);
+        pSPIHandle->TxLen--;
+        pSPIHandle->TxLen--;
+        (uint16_t*)pSPIHandle->pTxBuffer;
+    } else {
+        // 8 bit DFF
+        pSPIHandle->pSPIx->DR = *pSPIHandle->pTxBuffer;
+        pSPIHandle->TxLen--;
+        pSPIHandle->pTxBuffer;
+    }
+
+    if(!pSPIHandle->TxLen)
+    {
+        // TxLen is zero, so close the SPI transmission and inform the application that
+        // TX is over.
+
+        // This prevents interrupts from setting up of TXE flag
+        pSPIHandle->pSPIx->CR2 &= ~( 1 << SPI_CR2_TXEIE );
+        pSPIHandle->pTxBuffer = NULL;
+        pSPIHandle->TxLen = 0;
+        pSPIHandle->TxState = SPI_READY;
+        SPI_ApplicationEventCallback(pSPIHandle, SPI_EVENT_TX_CMPLT);
+    }
+}
+
+static void spi_rxne_interrupt_handle(SPI_Handle_t *pSPIHandle)
 {
 
 }
 
-void spi_rxne_interrupt_handle(void)
-{
-
-}
-
-void spi_ovr_err_interrupt_handle(void)
+static void spi_ovr_err_interrupt_handle(SPI_Handle_t *pSPIHandle)
 {
 
 }
