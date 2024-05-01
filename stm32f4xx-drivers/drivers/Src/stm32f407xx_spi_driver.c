@@ -381,12 +381,12 @@ static void spi_txe_interrupt_handle(SPI_Handle_t *pSPIHandle)
         pSPIHandle->pSPIx->DR = *((uint16_t*)pSPIHandle->pTxBuffer);
         pSPIHandle->TxLen--;
         pSPIHandle->TxLen--;
-        (uint16_t*)pSPIHandle->pTxBuffer;
+        (uint16_t*)pSPIHandle->pTxBuffer++;
     } else {
         // 8 bit DFF
         pSPIHandle->pSPIx->DR = *pSPIHandle->pTxBuffer;
         pSPIHandle->TxLen--;
-        pSPIHandle->pTxBuffer;
+        pSPIHandle->pTxBuffer++;
     }
 
     if(!pSPIHandle->TxLen)
