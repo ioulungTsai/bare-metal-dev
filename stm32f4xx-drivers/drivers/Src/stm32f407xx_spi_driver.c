@@ -270,3 +270,23 @@ void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority)
 
     *(NVIC_PR_BASE_ADDR + iprx) |= (IRQPriority << shift_amount);
 }
+
+
+/*
+ * SPI Send Data - This implement is a Interrupt Call
+ */
+
+void SPI_SendDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t Len)
+{
+
+}
+
+
+/*
+ * SPI Receive Data - This implement is a Interrupt Call
+ */
+
+void SPI_ReceiveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len)
+{
+
+}
