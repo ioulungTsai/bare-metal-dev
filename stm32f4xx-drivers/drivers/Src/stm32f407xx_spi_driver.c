@@ -435,7 +435,7 @@ static void spi_ovr_err_interrupt_handle(SPI_Handle_t *pSPIHandle)
         temp = pSPIHandle->pSPIx->DR;
         temp = pSPIHandle->pSPIx->SR;
     }
-    (void) temp;
+    (void) temp; // Fix the warning: variable 'temp' set but not used
 
     // 2. Inform the application
     SPI_ApplicationEventCallback(pSPIHandle, SPI_EVENT_OVR_ERR);
@@ -456,6 +456,14 @@ void SPI_CloseReception(SPI_Handle_t *pSPIHandle)
     pSPIHandle->pRxBuffer = NULL;
     pSPIHandle->RxLen = 0;
     pSPIHandle->RxState = SPI_READY;
+}
+
+void SPI_ClearOVRFlag(SPI_RegDef_t *pSPIx)
+{
+    uint8_t temp;
+    temp = pSPIx->DR;
+    temp = pSPIx->SR;
+    (void) temp; // Fix the warning: variable 'temp' set but not used
 }
 
 
