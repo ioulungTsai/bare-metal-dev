@@ -55,6 +55,16 @@ typedef struct
 
 
 /*
+ * Possible SPI Application Events
+ */
+
+#define SPI_EVENT_TX_CMPLT			1
+#define SPI_EVENT_RX_CMPLT			2
+#define SPI_EVENT_OVR_ERR			3
+#define SPI_EVENT_CRC_ERR			4
+
+
+/*
  * @SPI_DeviceMode
  */
 
