@@ -435,7 +435,17 @@ static void spi_rxne_interrupt_handle(SPI_Handle_t *pSPIHandle)
 
 static void spi_ovr_err_interrupt_handle(SPI_Handle_t *pSPIHandle)
 {
+    uint8_t temp;
+    // 1. Clear the OVR flag
+    if(pSPIHandle->TxState != SPI_BUSY_IN_TX)
+    {
+        temp = pSPIHandle->pSPIx->DR;
+        temp = pSPIHandle->pSPIx->SR;
+    }
+    (void) temp;
 
+    // 2. Inform the application
+    SPI_ApplicationEventCallback(pSPIHandle, SPI_EVENT_OVR_ERR);
 }
 
 
