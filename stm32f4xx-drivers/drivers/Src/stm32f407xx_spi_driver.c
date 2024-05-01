@@ -405,7 +405,32 @@ static void spi_txe_interrupt_handle(SPI_Handle_t *pSPIHandle)
 
 static void spi_rxne_interrupt_handle(SPI_Handle_t *pSPIHandle)
 {
+    // 2. Check the DFF bit in CR1
+    if(pSPIHandle->pSPIx->CR1 & (1 << SPI_CR1_DFF))
+    {
+        // 16 bit DFF
+        // 1. Load the data from DR to Rx Buffer address
+        *((uint16_t*)pSPIHandle->pRxBuffer) = pSPIHandle->pSPIx->DR;
+        pSPIHandle->RxLen -= 2;
+        pSPIHandle->pRxBuffer++;
+        pSPIHandle->pRxBuffer++;
+    } else {
+        // 8 bit DFF
+        *(pSPIHandle->pRxBuffer) = pSPIHandle->pSPIx->DR;
+        pSPIHandle->RxLen--;
+        pSPIHandle->pRxBuffer++;
+    }
 
+    if(!pSPIHandle->TxLen)
+    {
+        // Reception is complete
+        // Turn off the RXNEIE interrupt
+        pSPIHandle->pSPIx->CR2 &= ~( 1 << SPI_CR2_RXNEIE );
+        pSPIHandle->pRxBuffer = NULL;
+        pSPIHandle->RxLen = 0;
+        pSPIHandle->RxState = SPI_READY;
+        SPI_ApplicationEventCallback(pSPIHandle, SPI_EVENT_RX_CMPLT);
+    }
 }
 
 static void spi_ovr_err_interrupt_handle(SPI_Handle_t *pSPIHandle)
