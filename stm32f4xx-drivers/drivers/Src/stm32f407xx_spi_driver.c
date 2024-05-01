@@ -230,7 +230,7 @@ void SPI_SSOEConfig(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
 
 
 /*
- * IRQ Configuration and ISR handling
+ * IRQ Configuration
  */
 
 void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi)
@@ -325,4 +325,57 @@ uint8_t SPI_ReceiveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t
         }
 
     return state;
+}
+
+
+/*
+ * ISR handling
+ */ 
+
+void SPI_IRQHandling(SPI_Handle_t *pSPIHandle)
+{
+    uint8_t temp1, temp2;
+
+    // 1. Check for TXE
+    temp1 = pSPIHandle->pSPIx->SR & ( 1 << SPI_SR_TXE );
+    temp2 = pSPIHandle->pSPIx->CR2 & ( 1 << SPI_CR2_TXEIE );
+
+    if (temp1 && temp2) {
+        // Handle TXE
+        spi_txe_interrupt_handle();
+    }
+
+    // 2. Check for RXNE
+    temp1 = pSPIHandle->pSPIx->SR & ( 1 << SPI_SR_RXNE );
+    temp2 = pSPIHandle->pSPIx->CR2 & ( 1 << SPI_CR2_RXNEIE );
+
+    if (temp1 && temp2) {
+        // Handle RXNE
+        spi_rxne_interrupt_handle();
+    }
+
+    // 3. Check for OVR flag
+    temp1 = pSPIHandle->pSPIx->SR & ( 1 << SPI_SR_OVR );
+    temp2 = pSPIHandle->pSPIx->CR2 & ( 1 << SPI_CR2_ERRIE );
+
+    if (temp1 && temp2) {
+        // Handle RXNE
+        spi_ovr_err_interrupt_handle();
+    }
+}
+
+
+void spi_txe_interrupt_handle(void)
+{
+
+}
+
+void spi_rxne_interrupt_handle(void)
+{
+
+}
+
+void spi_ovr_err_interrupt_handle(void)
+{
+
 }
