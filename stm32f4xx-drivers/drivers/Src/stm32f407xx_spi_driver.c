@@ -112,7 +112,7 @@ void SPI_Init(SPI_Handle_t *pSPIHandle)
 
 void SPI_DeInit(SPI_RegDef_t *pSPIx)
 {
- //todo
+    // TODO. Refer to the RCC reset registers
 }
 
 
