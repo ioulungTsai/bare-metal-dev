@@ -130,6 +130,27 @@ void I2C_Init(I2C_Handle_t *pI2CHandle)
     tempReg |= pI2CHandle->I2C_Config.I2C_DeviceAddress << 1;
     tempReg |= 1 << 14;
     pI2CHandle->pI2Cx->OAR1 = tempReg;
+
+    // CCR calculation
+    uint16_t ccr_value = 0;
+    tempReg = 0;
+    if(pI2CHandle->I2C_Config.I2C_SCLSpeed <= I2C_SCL_SPEED_SM) {
+        // Mode in standard mode
+        ccr_value = RCC_GetPCLK1Value() / (2 * pI2CHandle->I2C_Config.I2C_SCLSpeed);
+        tempReg |= (ccr_value & 0xFFF);
+    } else {
+        // Mode in fast mode
+        tempReg |= ( 1 << 15);
+        tempReg |= (pI2CHandle->I2C_Config.I2C_FMDutyCycle << 14);
+        if(pI2CHandle->I2C_Config.I2C_FMDutyCycle == I2C_FM_DUTY_2) {
+            ccr_value = RCC_GetPCLK1Value() / (3 * pI2CHandle->I2C_Config.I2C_SCLSpeed);
+        } else {
+            ccr_value = RCC_GetPCLK1Value() / (25 * pI2CHandle->I2C_Config.I2C_SCLSpeed);
+        }
+        tempReg |= (ccr_value & 0xFFF);
+    }
+    pI2CHandle->pI2Cx->CCR = tempReg;
+
 }
 
 
