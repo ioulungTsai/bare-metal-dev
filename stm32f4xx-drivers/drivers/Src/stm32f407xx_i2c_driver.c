@@ -114,7 +114,22 @@ uint32_t RCC_GetPCLK1Value(void)
 
 void I2C_Init(I2C_Handle_t *pI2CHandle)
 {
-    
+    uint32_t tempReg = 0;
+
+    // ACK control bit
+    tempReg |= pI2CHandle->I2C_Config.I2C_AckControl << 10;
+    pI2CHandle->pI2Cx->CR1 = tempReg;
+
+    // Configure the FREQ field of CR2
+    tempReg = 0;
+    tempReg |= RCC_GetPCLK1Value() / 1000000U;
+    pI2CHandle->pI2Cx->CR2 = (tempReg & 0x3F);
+
+    // Program the device own address
+    tempReg = 0;
+    tempReg |= pI2CHandle->I2C_Config.I2C_DeviceAddress << 1;
+    tempReg |= 1 << 14;
+    pI2CHandle->pI2Cx->OAR1 = tempReg;
 }
 
 
