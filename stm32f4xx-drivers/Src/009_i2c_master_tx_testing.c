@@ -3,7 +3,7 @@
 #include<string.h>
 #include "stm32f407xx.h"
 
-#define MY_ADDR 0x61
+#define MY_ADDR     0x61
 #define SLAVE_ADDR  0x68
 
 void delay(void)
@@ -18,8 +18,8 @@ uint8_t some_data[] = "Testing I2C master Tx\n";
 
 
 /*
- * PB6 --> I2C_SCL
- * PB9 --> I2C_SDA
+ * PB6 or PB8 --> I2C_SCL
+ * PB9 or PB7 --> I2C_SDA
  */
 
 void I2C1_GPIOInits(void)
@@ -34,11 +34,11 @@ void I2C1_GPIOInits(void)
     I2CPins.GPIO_Pinconfig.GPIO_PinOPSpeed = GPIO_OUT_SPEED_FAST;
 
     // SCL
-    I2CPins.GPIO_Pinconfig.GPIO_PinNumber = 6;
+    I2CPins.GPIO_Pinconfig.GPIO_PinNumber = GPIO_PIN_NO_8;
     GPIO_Init(&I2CPins);
     
     // SDA
-    I2CPins.GPIO_Pinconfig.GPIO_PinNumber = 9;
+    I2CPins.GPIO_Pinconfig.GPIO_PinNumber = GPIO_PIN_NO_7;
     GPIO_Init(&I2CPins);
 }
 
@@ -54,8 +54,8 @@ void I2C1_Inits(void)
 }
 
 void GPIO_ButtonInit(void)
- {
-    GPIO_Handle_t GpioBtn, GpioLed;
+{
+    GPIO_Handle_t GpioBtn;
 
     GpioBtn.pGPIOx = GPIOA;
     GpioBtn.GPIO_Pinconfig.GPIO_PinNumber = GPIO_PIN_NO_0;
@@ -64,22 +64,11 @@ void GPIO_ButtonInit(void)
     GpioBtn.GPIO_Pinconfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
 
     GPIO_Init(&GpioBtn);
-
-    GpioLed.pGPIOx = GPIOD;
-	GpioLed.GPIO_Pinconfig.GPIO_PinNumber = GPIO_PIN_NO_12;
-	GpioLed.GPIO_Pinconfig.GPIO_PinMode = GPIO_MODE_OUT;
-	GpioLed.GPIO_Pinconfig.GPIO_PinOPSpeed = GPIO_OUT_SPEED_FAST;
-	GpioLed.GPIO_Pinconfig.GPIO_PinOPType = GPIO_OUT_TYPE_OD;
-	GpioLed.GPIO_Pinconfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
-
-	GPIO_PeriClockControl(GPIOD,ENABLE);
-
-	GPIO_Init(&GpioLed);
- }
+}
 
 
- int main(void)
- {
+int main(void)
+{
     GPIO_ButtonInit();
     
     // I2C pin inits
@@ -89,7 +78,7 @@ void GPIO_ButtonInit(void)
     I2C1_Inits();
 
     // Enable the I2C peripheral
-    I2C_PeriClockControl(I2C1, ENABLE);
+    I2C_PeripheralControl(I2C1, ENABLE);
 
     while(1)
     {
@@ -102,6 +91,5 @@ void GPIO_ButtonInit(void)
         // Send data to slave
         I2C_MasterSendData(&I2C1Handle, some_data, strlen((char*)some_data), SLAVE_ADDR);
     }
-
- }
+}
  
