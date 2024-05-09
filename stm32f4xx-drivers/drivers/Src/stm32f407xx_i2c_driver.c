@@ -309,17 +309,33 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
     // Procedure to read data from slave when Len > 1
     if(Len > 1) {
         // Clear the ADDR flag
-        // Read the data until Len becomes zero
-            // Wait until RXNE becomes 1
-            // if last 2 bytes are remaining
-                //Disable Acking
-                //Generate STOP condition
-            //Read the data from data register in to buffer
-            //Increment the buffer address
+        I2C_ClearADDRFlag(pI2CHandle->pI2Cx);
 
+        // Read the data until Len becomes zero
+        for( uint32_t i = Len; i > 0; i--) {
+            // Wait until RXNE becomes 1
+		    while(! I2C_GetFlagStatus(pI2CHandle->pI2Cx,I2C_FLAG_RXNE) );
+            
+            // if last 2 bytes are remaining
+            if(Len == 2) {
+                //Disable Acking
+                I2C_ManageAcking(pI2CHandle->pI2Cx, I2C_ACK_DISABLE);
+                
+                //Generate STOP condition
+                I2C_GenerateStopCondition(pI2CHandle->pI2Cx);
+            }
+            //Read the data from data register in to buffer
+    		*pRxBuffer = pI2CHandle->pI2Cx->DR;
+
+            //Increment the buffer address
+            pRxBuffer++;
+        }
     }
     
     //Re-Enable ACKing
+    if(pI2CHandle->I2C_Config.I2C_AckControl == I2C_ACK_ENABLE) {
+        I2C_ManageAcking(pI2CHandle->pI2Cx, I2C_ACK_ENABLE);
+    }
 
 }
 
