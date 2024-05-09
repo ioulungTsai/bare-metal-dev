@@ -3,6 +3,9 @@
 #include<string.h>
 #include "stm32f407xx.h"
 
+extern void initialise_monitor_handles(void);
+
+
 #define MY_ADDR     0x61
 #define SLAVE_ADDR  0x68
 
@@ -71,6 +74,10 @@ int main(void)
 {
     uint8_t commandCode, len;
 
+    initialise_monitor_handles();
+
+    printf("Application is running...\n");
+
     GPIO_ButtonInit();
     
     // I2C pin inits
@@ -104,6 +111,10 @@ int main(void)
         I2C_MasterSendData(&I2C1Handle, &commandCode, 1, SLAVE_ADDR);
 
         I2C_MasterReceiveData(&I2C1Handle, rcv_buf, len, SLAVE_ADDR);
+
+        rcv_buf[len + 1] = '\0';
+
+        printf("Data : %s", rcv_buf);
     }
 }
  
