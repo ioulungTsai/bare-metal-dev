@@ -318,7 +318,7 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
 		    while(! I2C_GetFlagStatus(pI2CHandle->pI2Cx,I2C_FLAG_RXNE) );
             
             // if last 2 bytes are remaining
-            if(Len == 2) {
+            if(i == 2) {
                 //Disable Acking
                 I2C_ManageAcking(pI2CHandle->pI2Cx, I2C_ACK_DISABLE);
                 
