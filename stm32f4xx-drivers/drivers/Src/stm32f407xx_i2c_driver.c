@@ -615,3 +615,8 @@ void I2C_ER_IRQHandling(I2C_Handle_t *pI2CHandle)
 {
 
 }
+
+__weak void I2C_ApplicationEventCallback(I2C_Handle_t *pI2CHandle, uint8_t AppEvent)
+{
+    // This is a weak implementation. The user application may override this function.
+}

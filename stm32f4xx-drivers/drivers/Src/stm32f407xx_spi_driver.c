@@ -469,5 +469,5 @@ void SPI_ClearOVRFlag(SPI_RegDef_t *pSPIx)
 
 __weak void SPI_ApplicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t AppEvent)
 {
-    // This is a weak implementation . the user application may override this function.
+    // This is a weak implementation. The user application may override this function.
 }
