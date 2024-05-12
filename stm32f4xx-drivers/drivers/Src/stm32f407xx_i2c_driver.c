@@ -509,6 +509,24 @@ uint8_t I2C_MasterReceiveDataIT(I2C_Handle_t *pI2CHandle, uint8_t *pRxBuffer, ui
 }
 
 
+static void I2C_MasterHandleTXEInterrupt(I2C_Handle_t *pI2CHandle)
+{
+    // Have to do the data transmission
+    if(pI2CHandle->TxRxState == I2C_BUSY_IN_TX) 
+    {
+        if(pI2CHandle->TxLen > 0) {
+            // 1. Load the data in to DR
+            pI2CHandle->pI2Cx->DR = *(pI2CHandle->pTxBuffer);
+            
+            // 2. Decrement the TxLen
+            pI2CHandle->TxLen--;
+
+            // 3. Increment the buffer address
+            pI2CHandle->pTxBuffer++;
+        }
+    }
+}
+
 static void I2C_MasterHandleRXNEInterrupt(I2C_Handle_t *pI2CHandle)
 {
     // Have to do the data reception
@@ -637,20 +655,7 @@ void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle)
         if(pI2CHandle->pI2Cx->SR2 & ( 1 << I2C_SR2_MSL))
         {
             // TXE flag is set
-            // Have to do the data transmission
-            if(pI2CHandle->TxRxState == I2C_BUSY_IN_TX) 
-            {
-                if(pI2CHandle->TxLen > 0) {
-                    // 1. Load the data in to DR
-                    pI2CHandle->pI2Cx->DR = *(pI2CHandle->pTxBuffer);
-                    
-                    // 2. Decrement the TxLen
-                    pI2CHandle->TxLen--;
-
-                    // 3. Increment the buffer address
-                    pI2CHandle->pTxBuffer++;
-                }
-            }
+            I2C_MasterHandleTXEInterrupt(pI2CHandle);
         }
     }
 
