@@ -509,6 +509,45 @@ uint8_t I2C_MasterReceiveDataIT(I2C_Handle_t *pI2CHandle, uint8_t *pRxBuffer, ui
 }
 
 
+static void I2C_MasterHandleRXNEInterrupt(I2C_Handle_t *pI2CHandle)
+{
+    // Have to do the data reception
+    if(pI2CHandle->RxSize == 1)
+    {
+        *pI2CHandle->pRxBuffer = pI2CHandle->pI2Cx->DR;
+        pI2CHandle->RxLen--;
+    }
+
+    if(pI2CHandle->RxSize > 1)
+    {
+        if(pI2CHandle->RxLen == 2)
+        {
+            // Clear the ack bit
+            I2C_ManageAcking(pI2CHandle->pI2Cx,DISABLE);
+        }
+
+        // Read DR
+        *pI2CHandle->pRxBuffer = pI2CHandle->pI2Cx->DR;
+        pI2CHandle->pRxBuffer++;
+        pI2CHandle->RxLen--;
+    }
+
+    if(pI2CHandle->RxLen == 0)
+    {
+        // Close the I2C data reception and notify the application
+
+        // 1. Generate the STOP condition
+        if(pI2CHandle->Sr == I2C_DISABLE_SR)
+                I2C_GenerateStopCondition(pI2CHandle->pI2Cx);
+
+        // 2. Close the I2C RX
+        // I2C_CloseReceiveData();
+
+        // 3. Notify the application
+        I2C_ApplicationEventCallback(pI2CHandle, I2C_EV_RX_CMPLT);
+    }
+}
+
 void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle)
 {
     //Interrupt handling for both master and slave mode of a device
@@ -624,41 +663,7 @@ void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle)
             // RXNE flag is set
             if (pI2CHandle->TxRxState == I2C_BUSY_IN_RX)
             {
-                // Have to do the data reception
-                if(pI2CHandle->RxSize == 1)
-                {
-                    *pI2CHandle->pRxBuffer = pI2CHandle->pI2Cx->DR;
-                    pI2CHandle->RxLen--;
-                }
-
-                if(pI2CHandle->RxSize > 1)
-                {
-                    if(pI2CHandle->RxLen == 2)
-                    {
-                        // Clear the ack bit
-                        I2C_ManageAcking(pI2CHandle->pI2Cx,DISABLE);
-                    }
-
-                    // Read DR
-                    *pI2CHandle->pRxBuffer = pI2CHandle->pI2Cx->DR;
-                    pI2CHandle->pRxBuffer++;
-                    pI2CHandle->RxLen--;
-                }
-
-                if(pI2CHandle->RxLen == 0)
-                {
-                    // Close the I2C data reception and notify the application
-
-                    // 1. Generate the STOP condition
-                    if(pI2CHandle->Sr == I2C_DISABLE_SR)
-                            I2C_GenerateStopCondition(pI2CHandle->pI2Cx);
-
-                    // 2. Close the I2C RX
-                    // I2C_CloseReceiveData();
-
-                    // 3. Notify the application
-                    I2C_ApplicationEventCallback(pI2CHandle, I2C_EV_RX_CMPLT);
-                }
+                I2C_MasterHandleRXNEInterrupt(pI2CHandle);
             }
         }
     }
