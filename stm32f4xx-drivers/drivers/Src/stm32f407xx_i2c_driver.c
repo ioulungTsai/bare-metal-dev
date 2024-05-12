@@ -13,7 +13,7 @@ uint8_t APB1_Prescaler[4] = {2, 4, 8, 16};
 static void I2C_GenerateStartCondition(I2C_RegDef_t *pI2Cx);
 static void I2C_ExecuteAddressPhaseWrite(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr);
 static void I2C_ExecuteAddressPhaseRead(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr);
-static void I2C_ClearADDRFlag(I2C_RegDef_t *pI2Cx);
+static void I2C_ClearADDRFlag(I2C_Handle_t *pI2CHandle);
 static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx);
 
 
@@ -38,12 +38,38 @@ static void I2C_ExecuteAddressPhaseRead(I2C_RegDef_t *pI2Cx, uint8_t SlaveAddr)
 }
 
 
-static void I2C_ClearADDRFlag(I2C_RegDef_t *pI2Cx)
+static void I2C_ClearADDRFlag(I2C_Handle_t *pI2CHandle)
 {
-    uint32_t dummyRead;
-    dummyRead = pI2Cx->SR1;
-    dummyRead = pI2Cx->SR2;
-    (void)dummyRead;
+    uint32_t dummy_read;
+    // Check the device mode
+    if(pI2CHandle->pI2Cx->SR2 & ( 1 << I2C_SR2_MSL))
+    {
+        // The device is in Master mode
+        if(pI2CHandle->TxRxState == I2C_BUSY_IN_RX)
+        {
+            if(pI2CHandle->RxSize == 1)
+            {
+                // 1. Disable the ACK bit
+                I2C_ManageAcking(pI2CHandle->pI2Cx, DISABLE);
+                
+                // 2. Clear the ADDR flag (read SR1, read SR2)
+                dummy_read = pI2CHandle->pI2Cx->SR1;
+                dummy_read = pI2CHandle->pI2Cx->SR2;
+                (void) dummy_read;
+            }
+        } else {
+            // Clear the ADDR flag (read SR1, read SR2)
+            dummy_read = pI2CHandle->pI2Cx->SR1;
+            dummy_read = pI2CHandle->pI2Cx->SR2;
+            (void) dummy_read;
+        }
+    } else {
+        // The device is in Slave mode
+        // Clear the ADDR flag (read SR1, read SR2)
+        dummy_read = pI2CHandle->pI2Cx->SR1;
+        dummy_read = pI2CHandle->pI2Cx->SR2;
+        (void) dummy_read;
+    }
 }
 
 static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx)
@@ -247,7 +273,7 @@ void I2C_MasterSendData(I2C_Handle_t *pI2CHandle, uint8_t *pTxBuffer, uint32_t L
 
     // 5. clear the ADDR flag according to its software sequence
 	//   Note: Until ADDR is cleared SCL will be stretched (pulled to LOW)
-    I2C_ClearADDRFlag(pI2CHandle->pI2Cx);
+    I2C_ClearADDRFlag(pI2CHandle);
 
     // 6. send the data until len becomes 0
     while(Len > 0)
@@ -298,7 +324,7 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
         I2C_ManageAcking(pI2CHandle->pI2Cx, I2C_ACK_DISABLE);
 
         // Clear the ADDR flag
-        I2C_ClearADDRFlag(pI2CHandle->pI2Cx);
+        I2C_ClearADDRFlag(pI2CHandle);
 
         // Wait until  RXNE becomes 1
 		while(! I2C_GetFlagStatus(pI2CHandle->pI2Cx,I2C_FLAG_RXNE) );
@@ -314,7 +340,7 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
     // Procedure to read data from slave when Len > 1
     if(Len > 1) {
         // Clear the ADDR flag
-        I2C_ClearADDRFlag(pI2CHandle->pI2Cx);
+        I2C_ClearADDRFlag(pI2CHandle);
 
         // Read the data until Len becomes zero
         for( uint32_t i = Len; i > 0; i--) {
@@ -517,7 +543,7 @@ void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle)
 	//		 When Slave mode   : Address matched with own address
     if(temp1 && temp3) {
         // ADDR flag is set
-        I2C_ClearADDRFlag(pI2CHandle->pI2Cx);
+        I2C_ClearADDRFlag(pI2CHandle);
     }
 	
     temp3 = pI2CHandle->pI2Cx->SR1 & ( 1 << I2C_SR1_BTF);
