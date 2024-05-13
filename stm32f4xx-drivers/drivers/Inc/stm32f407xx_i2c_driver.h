@@ -157,7 +157,6 @@ void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle);
 void I2C_ER_IRQHandling(I2C_Handle_t *pI2CHandle);
 
 
-
 /*
  * Other Peripheral Control APIs
  */
@@ -167,6 +166,7 @@ uint8_t I2C_GetFlagStatus(I2C_RegDef_t *pI2Cx, uint32_t FlagName);
 void I2C_ManageAcking(I2C_RegDef_t *pI2Cx, uint8_t EnorDi);
 void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx);
 
+void I2C_SlaveEnableDisableCallbackEvent(I2C_RegDef_t *pI2Cx, uint8_t EnorDi);
 
 
 /*
