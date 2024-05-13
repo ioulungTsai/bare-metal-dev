@@ -70,7 +70,7 @@ void GPIO_ButtonInit(void)
 
 int main(void)
 {
-    
+
     GPIO_ButtonInit();
     
     // I2C pin inits
@@ -83,7 +83,7 @@ int main(void)
     I2C_IRQInterruptConfig(IRQ_NO_I2C1_EV, ENABLE);
     I2C_IRQInterruptConfig(IRQ_NO_I2C1_ER, ENABLE);
 
-    I2C_SlaveEnableDisableCallbackEvent(I2C1, ENABLE);
+    I2C_SlaveEnableDisableCallbackEvents(I2C1, ENABLE);
 
     // Enable the I2C peripheral
     I2C_PeripheralControl(I2C1, ENABLE);

@@ -77,7 +77,7 @@ void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx)
     pI2Cx->CR1 |= ( 1 << I2C_CR1_STOP );
 }
 
-void I2C_SlaveEnableDisableCallbackEvent(I2C_RegDef_t *pI2Cx, uint8_t EnorDi)
+void I2C_SlaveEnableDisableCallbackEvents(I2C_RegDef_t *pI2Cx, uint8_t EnorDi)
 {
     if(EnorDi == ENABLE)
 	{
