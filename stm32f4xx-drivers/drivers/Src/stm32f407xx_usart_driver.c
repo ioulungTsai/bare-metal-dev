@@ -242,6 +242,7 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
 
 	// Implement the code to configure the baud rate
 	// We will cover this in the lecture. No action required here 
+    USART_SetBaudRate(pUSARTHandle->pUSARTx, pUSARTHandle->USART_Config.USART_Baud);
 
 }
 
@@ -416,6 +417,8 @@ uint8_t USART_ReceiveDataIT(USART_Handle_t *pUSARTHandle, uint8_t *pRxBuffer, ui
 		pUSARTHandle->RxLen = Len;
 		pUSARTHandle->pRxBuffer = pRxBuffer;
 		pUSARTHandle->RxBusyState = USART_BUSY_IN_RX;
+
+        (void)pUSARTHandle->pUSARTx->DR;
 
 		//Implement the code to enable interrupt for RXNE
 		pUSARTHandle->pUSARTx->CR1 |= ( 1 << USART_CR1_RXNEIE );
