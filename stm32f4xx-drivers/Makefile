@@ -3,6 +3,7 @@ STARTUP_DIR 	=	./Startup
 SYSCALLS_DIR	=	./Syscalls
 DRIVERS_DIR 	=	./drivers
 OBJ_DIR 		=	./Obj
+BSP_DIR			=   ./bsp
 
 CC 				= 	arm-none-eabi-gcc
 MACH 			= 	cortex-m4
@@ -14,8 +15,8 @@ DEPFLAGS 		= 	-MMD -MP -MF $*.d
 FILE			=   file
 SRC				=	$(notdir $(FILE))
 OBJ				=	$(SRC:.c=.o)
-SRCS 			= 	$(shell find $(STARTUP_DIR) $(DRIVERS_DIR) $(SYSCALLS_DIR) -name *.c) $(SRC)
-SRCS_SH 		= 	$(shell find $(STARTUP_DIR) $(DRIVERS_DIR) -name *.c) $(SRC)
+SRCS 			= 	$(shell find $(STARTUP_DIR) $(DRIVERS_DIR) $(SYSCALLS_DIR) $(BSP_DIR) -name *.c) $(SRC)
+SRCS_SH 		= 	$(shell find $(STARTUP_DIR) $(DRIVERS_DIR) $(BSP_DIR) -name *.c) $(SRC)
 OBJS 			=   $(addprefix $(OBJ_DIR)/,$(notdir $(SRCS:.c=.o)))
 OBJS_SH 		=   $(addprefix $(OBJ_DIR)/,$(notdir $(SRCS_SH:.c=.o)))
 
@@ -34,6 +35,9 @@ semi:	./$(OBJ_DIR)/stm32f4xx_drivers_sh.elf
 	$(CC) $(CFLAGS) $(DEPFLAGS) -o $@ $^
 
 ./$(OBJ_DIR)/%.o: $(DRIVERS_DIR)/Src/%.c
+	$(CC) $(CFLAGS) $(DEPFLAGS) -o $@ $^
+
+./$(OBJ_DIR)/%.o: $(BSP_DIR)/%.c
 	$(CC) $(CFLAGS) $(DEPFLAGS) -o $@ $^
 
 ./$(OBJ_DIR)/syscalls.o: $(SYSCALLS_DIR)/syscalls.c
