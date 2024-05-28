@@ -3,13 +3,14 @@
 
 #define BTN_PRESSED LOW
 
-void delay(void)
-{
-    for(uint32_t i=0; i < 500000; i++);
+void
+delay(void) {
+    for (uint32_t i = 0; i < 500000; i++)
+        ;
 }
 
-int main(void)
-{
+int
+main(void) {
     GPIO_Handle_t GpioLed, GpioBtn;
 
     GpioLed.pGPIOx = GPIOA;
@@ -32,10 +33,9 @@ int main(void)
     GPIO_PeriClockControl(GPIOB, ENABLE);
 
     GPIO_Init(&GpioBtn);
-    
-    while(1)
-    {
-        if(GPIO_ReadFromInputPin(GPIOB,GPIO_PIN_NO_12) == BTN_PRESSED) {
+
+    while (1) {
+        if (GPIO_ReadFromInputPin(GPIOB, GPIO_PIN_NO_12) == BTN_PRESSED) {
             delay();
             GPIO_ToggleOutputPin(GPIOA, GPIO_PIN_NO_8);
         }

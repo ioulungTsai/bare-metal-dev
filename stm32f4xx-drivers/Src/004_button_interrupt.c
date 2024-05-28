@@ -4,17 +4,18 @@
 
 #define BTN_PRESSED LOW
 
-void delay(void)
-{
-    for(uint32_t i=0; i < 500000; i++);
+void
+delay(void) {
+    for (uint32_t i = 0; i < 500000; i++)
+        ;
 }
 
-int main(void)
-{
+int
+main(void) {
     GPIO_Handle_t GpioLed, GpioBtn;
 
-    memset(&GpioLed,0,sizeof(GpioLed));
-	memset(&GpioBtn,0,sizeof(GpioLed));
+    memset(&GpioLed, 0, sizeof(GpioLed));
+    memset(&GpioBtn, 0, sizeof(GpioLed));
 
     GpioLed.pGPIOx = GPIOD;
     GpioLed.GPIO_Pinconfig.GPIO_PinNumber = GPIO_PIN_NO_12;
@@ -41,13 +42,14 @@ int main(void)
     GPIO_IRQPriorityConfig(IRQ_NO_EXTI9_5, NVIC_IRQ_PRI15);
     GPIO_IRQInterruptConfig(IRQ_NO_EXTI9_5, ENABLE);
 
-    while(1);
-    
+    while (1)
+        ;
+
     return 0;
 }
 
-void EXTI9_5_IRQHandler(void)
-{
+void
+EXTI9_5_IRQHandler(void) {
     GPIO_IRQHandling(GPIO_PIN_NO_5);
     GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_NO_12);
 }

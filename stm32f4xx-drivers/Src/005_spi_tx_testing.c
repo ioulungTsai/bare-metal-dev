@@ -10,8 +10,8 @@
  * ALT Function : 5
 */
 
-void SPI2_GPIOInits(void)
-{
+void
+SPI2_GPIOInits(void) {
     GPIO_Handle_t SPIPins;
 
     SPIPins.pGPIOx = GPIOB;
@@ -38,8 +38,8 @@ void SPI2_GPIOInits(void)
     // GPIO_Init(&SPIPins);
 }
 
-void SPI2_Inits(void)
-{
+void
+SPI2_Inits(void) {
     SPI_Handle_t SPI2Handle;
 
     SPI2Handle.pSPIx = SPI2;
@@ -47,15 +47,15 @@ void SPI2_Inits(void)
     SPI2Handle.SPIConfig.SPI_DeviceMode = SPI_DEVICE_MODE_MASTER;
     SPI2Handle.SPIConfig.SPI_SclkSpeed = SPI_SCLK_SPEED_DIV2; // Generate 8MHz SCLK
     SPI2Handle.SPIConfig.SPI_DFF = SPI_DFF_8BITS;
-    SPI2Handle.SPIConfig.SPI_CPOL = SPI_CPOL_LOW; 
+    SPI2Handle.SPIConfig.SPI_CPOL = SPI_CPOL_LOW;
     SPI2Handle.SPIConfig.SPI_CPHA = SPI_CPHA_LOW;
     SPI2Handle.SPIConfig.SPI_SSM = SPI_SSM_EN; // Software slave management enabled for NSS pins
 
     SPI_Init(&SPI2Handle);
 }
 
-int main(void)
-{
+int
+main(void) {
     char user_data[] = "Hello World!";
 
     SPI2_GPIOInits(); // This function is used to initialize the GPIO pins to behave as SPI2 pins
@@ -66,13 +66,15 @@ int main(void)
 
     SPI_PeripheralControl(SPI2, ENABLE); // Enable the SPI2 peripheral
 
-    SPI_SendData(SPI2, (uint8_t *)user_data, strlen(user_data));
+    SPI_SendData(SPI2, (uint8_t*)user_data, strlen(user_data));
 
-    while( SPI_GetFlagStatus(SPI2, SPI_BSY_FLAG) ); // Check if SPI busy
+    while (SPI_GetFlagStatus(SPI2, SPI_BSY_FLAG))
+        ; // Check if SPI busy
 
-    SPI_PeripheralControl(SPI2, DISABLE); // Disable the SPI2 peripheral 
+    SPI_PeripheralControl(SPI2, DISABLE); // Disable the SPI2 peripheral
 
-    while(1);
+    while (1)
+        ;
 
     return 0;
 }

@@ -1,13 +1,14 @@
 
 #include "stm32f407xx.h"
 
-void delay(void)
-{
-    for(uint32_t i=0; i < 500000; i++);
+void
+delay(void) {
+    for (uint32_t i = 0; i < 500000; i++)
+        ;
 }
 
-int main(void)
-{
+int
+main(void) {
     GPIO_Handle_t GpioLed;
 
     GpioLed.pGPIOx = GPIOD;
@@ -21,9 +22,8 @@ int main(void)
     GPIO_PeriClockControl(GPIOD, ENABLE);
 
     GPIO_Init(&GpioLed);
-    
-    while(1)
-    {
+
+    while (1) {
         GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_NO_12);
         delay();
     }
