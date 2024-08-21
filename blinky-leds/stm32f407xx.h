@@ -35,13 +35,16 @@
 #define PERIPH_BASE_AHB2        (0x50000000U)
 #define PERIPH_BASE_AHB3        (0x60000000U)
 
-/* Base boundary address for all peripherals */
+/* Base boundary address for peripherals */
 
 /* AHB1 */
-#define GPIO_D_BASE             (PERIPH_BASE_AHB1 + 0x0C00)
+#define GPIOD_BASE              (PERIPH_BASE_AHB1 + 0x0C00)
 #define RCC_BASE                (PERIPH_BASE_AHB1 + 0x3800)
 
-/* GPIO register definition structure */
+
+/* Register definition structure for peripherals*/
+
+/* GPIO */
 typedef struct {
         _IO uint32_t MODER;             /* GPIO port mode register */
         _IO uint32_t OTYPER;            /* GPIO port output type register */
@@ -54,7 +57,7 @@ typedef struct {
         _IO uint32_t AFR[2];            /* GPIO alternate function low/high register */
 } GPIO_RegDef_t;
 
-/* RCC register definition structure */
+/* RCC */
 typedef struct {
         _IO uint32_t CR;                /* Clock control register */
         _IO uint32_t PLLCFGR;           /* PLL configuration register */
@@ -87,5 +90,10 @@ typedef struct {
         _IO uint32_t SSCGR;             /* Spread spectrum clock generation register */
         _IO uint32_t PLLI2SCFGR;        /* PLLI2S configuration register */
 } RCC_RegDef_t;
+
+
+/* Pointer definition for peripherals */
+#define GPIOD                   ((GPIO_RegDef_t *)GPIOD_BASE)
+#define RCC                     ((GPIO_RegDef_t *)RCC_BASE)
 
 #endif /* STM32F407XX_H */
