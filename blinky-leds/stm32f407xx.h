@@ -93,12 +93,14 @@ typedef struct {
 
 /* Pointer definition for peripherals */
 #define GPIOD                   ((GPIO_RegDef_t *)GPIOD_BASE)
-#define RCC                     ((GPIO_RegDef_t *)RCC_BASE)
-
+#define RCC                     ((RCC_RegDef_t *)RCC_BASE)
 
 /* Bit manipulation macros */
 #define SET_BIT(REG, BIT)       ((REG) |= (BIT))
 #define CLEAR_BIT(REG, BIT)     ((REG) &= ~(BIT))
 #define READ_BIT(REG, BIT)      ((REG) & (BIT))
+
+/* RCC AHB1 peripheral clock enable register bits */
+#define RCC_AHB1ENR_GPIODEN     (1U << 3)
 
 #endif /* STM32F407XX_H */
