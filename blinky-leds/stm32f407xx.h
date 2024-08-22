@@ -91,9 +91,14 @@ typedef struct {
         _IO uint32_t PLLI2SCFGR;        /* PLLI2S configuration register */
 } RCC_RegDef_t;
 
-
 /* Pointer definition for peripherals */
 #define GPIOD                   ((GPIO_RegDef_t *)GPIOD_BASE)
 #define RCC                     ((GPIO_RegDef_t *)RCC_BASE)
+
+
+/* Bit manipulation macros */
+#define SET_BIT(REG, BIT)       ((REG) |= (BIT))
+#define CLEAR_BIT(REG, BIT)     ((REG) &= ~(BIT))
+#define READ_BIT(REG, BIT)      ((REG) & (BIT))
 
 #endif /* STM32F407XX_H */
