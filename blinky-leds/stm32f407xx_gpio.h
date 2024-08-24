@@ -17,7 +17,6 @@
 /* GPIO Pin definitions */
 #define GPIO_PIN_12       (1U << 12) // Green LED is on PD12
 
-
 /* GPIO Mode definitions */
 #define GPIO_MODE_INPUT   0x00U
 #define GPIO_MODE_OUTPUT  0x01U
@@ -40,9 +39,9 @@
 #define GPIO_PUPD_PD      0x02U
 
 /* Function prototypes */
-void GPIO_Init(GPIO_RegDef_t *GPIOx, uint32_t pin, uint8_t mode, uint8_t otype, uint8_t speed, uint8_t pupd);
-void GPIO_WritePin(GPIO_RegDef_t *GPIOx, uint32_t pin, uint8_t state);
-uint8_t GPIO_ReadPin(GPIO_RegDef_t *GPIOx, uint32_t pin);
-void GPIO_TogglePin(GPIO_RegDef_t *GPIOx, uint32_t pin);
+void gpio_init(GPIO_RegDef_t *GPIOx, uint32_t pin, uint8_t mode, uint8_t otype, uint8_t speed, uint8_t pupd);
+void gpio_write_pin(GPIO_RegDef_t *GPIOx, uint32_t pin, uint8_t state);
+uint8_t gpio_read_pin(GPIO_RegDef_t *GPIOx, uint32_t pin);
+void gpio_toggle_pin(GPIO_RegDef_t *GPIOx, uint32_t pin);
 
 #endif /* STM32F4XX_GPIO_H */
