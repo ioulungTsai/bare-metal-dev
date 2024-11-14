@@ -13,25 +13,25 @@
  * ARM Cortex Mx Processor NVIC ISERx register Addresses
  */
 
-#define NVIC_ISER0             ((__vo uint32_t*)0xE000E100)
-#define NVIC_ISER1             ((__vo uint32_t*)0xE000E104)
-#define NVIC_ISER2             ((__vo uint32_t*)0xE000E108)
-#define NVIC_ISER3             ((__vo uint32_t*)0xE000E10c)
+#define NVIC_ISER0             ((__vo uint32_t *)0xE000E100)
+#define NVIC_ISER1             ((__vo uint32_t *)0xE000E104)
+#define NVIC_ISER2             ((__vo uint32_t *)0xE000E108)
+#define NVIC_ISER3             ((__vo uint32_t *)0xE000E10c)
 
 /*
  * ARM Cortex Mx Processor NVIC ICERx register Addresses
  */
 
-#define NVIC_ICER0             ((__vo uint32_t*)0xE000E180)
-#define NVIC_ICER1             ((__vo uint32_t*)0xE000E184)
-#define NVIC_ICER2             ((__vo uint32_t*)0xE000E188)
-#define NVIC_ICER3             ((__vo uint32_t*)0xE000E18c)
+#define NVIC_ICER0             ((__vo uint32_t *)0xE000E180)
+#define NVIC_ICER1             ((__vo uint32_t *)0xE000E184)
+#define NVIC_ICER2             ((__vo uint32_t *)0xE000E188)
+#define NVIC_ICER3             ((__vo uint32_t *)0xE000E18c)
 
 /*
  * ARM Cortex Mx Processor Priority Register Address Calculation
  */
 
-#define NVIC_PR_BASE_ADDR      ((__vo uint32_t*)0xE000E400)
+#define NVIC_PR_BASE_ADDR      ((__vo uint32_t *)0xE000E400)
 
 /*
  * ARM Cortex Mx Processor number of priority bits implemented in Priority Register
@@ -43,11 +43,11 @@
  * base address of Flash and SRAM memories
  */
 
-#define FLASH_BASEADDR         0x08000000U    /* Base address of Flash        */
-#define SRAM1_BASEADDR         0x20000000U    /* Base address of SRAM1        */
-#define SRAM2_BASEADDR         0x20001C00U    /* Base address of SRAM2        */
-#define ROM_BASEADDR           0x1FFF0000U    /* Base address of ROM          */
-#define SRAM_BASEADDR          SRAM1_BASEADDR /* Base address of Main SRAM    */
+#define FLASH_BASEADDR         0x08000000U
+#define SRAM1_BASEADDR         0x20000000U
+#define SRAM2_BASEADDR         0x20001C00U
+#define ROM_BASEADDR           0x1FFF0000U
+#define SRAM_BASEADDR          SRAM1_BASEADDR
 
 /* 
  * base address of AHBx and APBx buses
@@ -115,16 +115,15 @@
  */
 
 typedef struct {
-    __vo uint32_t MODER;   /* GPIO port mode register                          Address offset: 0x00 */
-    __vo uint32_t OTYPER;  /* GPIO port output type register                   Address offset: 0x04 */
-    __vo uint32_t OSPEEDR; /* GPIO port output speed register                  Address offset: 0x08 */
-    __vo uint32_t PUPDR;   /* GPIO port pull-up/pull-down register             Address offset: 0x0C */
-    __vo uint32_t IDR;     /* GPIO port input data register                    Address offset: 0x10 */
-    __vo uint32_t ODR;     /* GPIO port output data register                   Address offset: 0x14 */
-    __vo uint32_t BSRR;    /* GPIO port bit set/reset register                 Address offset: 0x18 */
-    __vo uint32_t LCKR;    /* GPIO port configuration lock register            Address offset: 0x1C */
-    __vo uint32_t AFR[2];  /* AF[0] GPIO alternate function low register       Address offset: 0x20 */
-                           /* AF[1] GPIO alternate function high register      Address offset: 0x24 */
+        __vo uint32_t MODER;
+        __vo uint32_t OTYPER;
+        __vo uint32_t OSPEEDR;
+        __vo uint32_t PUPDR;
+        __vo uint32_t IDR;
+        __vo uint32_t ODR;
+        __vo uint32_t BSRR;
+        __vo uint32_t LCKR;
+        __vo uint32_t AFR[2];
 } GPIO_RegDef_t;
 
 /*
@@ -132,71 +131,38 @@ typedef struct {
  */
 
 typedef struct {
-    __vo uint32_t
-        CR; /* RCC clock control register                                           Address offset: 0x00        */
-    __vo uint32_t
-        PLLCFGR; /* RCC PLL configuration register                                       Address offset: 0x04        */
-    __vo uint32_t
-        CFGR; /* RCC clock configuration register                                     Address offset: 0x08        */
-    __vo uint32_t
-        CIR; /* RCC clock interrupt register                                         Address offset: 0x0C        */
-    __vo uint32_t
-        AHB1RSTR; /* RCC AHB1 peripheral reset register                                   Address offset: 0x10        */
-    __vo uint32_t
-        AHB2RSTR; /* RCC AHB2 peripheral reset register                                   Address offset: 0x14        */
-    __vo uint32_t
-        AHB3RSTR; /* RCC AHB3 peripheral reset register                                   Address offset: 0x18        */
-    uint32_t
-        Reserved0; /* Reserved                                                             Address offset: 0x1C        */
-    __vo uint32_t
-        APB1RSTR; /* RCC APB1 peripheral reset register                                   Address offset: 0x20        */
-    __vo uint32_t
-        APB2RSTR; /* RCC APB2 peripheral reset register                                   Address offset: 0x24        */
-    uint32_t Reserved1
-        [2]; /* Reserved                                                             Address offset: 0x28-0x2C   */
-    __vo uint32_t
-        AHB1ENR; /* RCC AHB1 peripheral clock register                                   Address offset: 0x30        */
-    __vo uint32_t
-        AHB2ENR; /* RCC AHB2 peripheral clock register                                   Address offset: 0x34        */
-    __vo uint32_t
-        AHB3ENR; /* RCC AHB3 peripheral clock register                                   Address offset: 0x38        */
-    uint32_t
-        Reserved2; /* Reserved                                                             Address offset: 0x3C        */
-    __vo uint32_t
-        APB1ENR; /* RCC APB1 peripheral clock enable register                            Address offset: 0x40        */
-    __vo uint32_t
-        APB2ENR; /* RCC APB2 peripheral clock enable register                            Address offset: 0x44        */
-    uint32_t Reserved3
-        [2]; /* Reserved                                                             Address offset: 0x48-0x4C   */
-    __vo uint32_t
-        AHB1LPENR; /* RCC AHB1 peripheral clock enable in low power mode register          Address offset: 0x50        */
-    __vo uint32_t
-        AHB2LPENR; /* RCC AHB2 peripheral clock enable in low power mode register          Address offset: 0x54        */
-    __vo uint32_t
-        AHB3LPENR; /* RCC AHB3 peripheral clock enable in low power mode register          Address offset: 0x58        */
-    uint32_t
-        Reserved4; /* Reserved                                                             Address offset: 0x5C        */
-    __vo uint32_t
-        APB1LPENR; /* RCC APB1 peripheral clock enable in low power mode register          Address offset: 0x60        */
-    __vo uint32_t
-        APB2LPENR; /* RCC APB2 peripheral clock enable in low power mode register          Address offset: 0x64        */
-    uint32_t Reserved5
-        [2]; /* Reserved                                                             Address offset: 0x68-0x6C   */
-    __vo uint32_t
-        BDCR; /* RCC Backup domain control register                                   Address offset: 0x70        */
-    __vo uint32_t
-        CSR; /* RCC clock control & status register                                  Address offset: 0x74        */
-    uint32_t Reserved6
-        [2]; /* Reserved                                                             Address offset: 0x78-0x7C   */
-    __vo uint32_t
-        SSCGR; /* RCC spread spectrum clock generation register                        Address offset: 0x80        */
-    __vo uint32_t
-        PLLI2SCFGR; /* RCC PLLI2S configuration register                                    Address offset: 0x84        */
-    __vo uint32_t
-        PLLSAICFGR; /* RCC PLL configuration register                                       Address offset: 0x88        */
-    __vo uint32_t
-        DCKCFGR; /* RCC Dedicated Clock Configuration Register                           Address offset: 0x8C        */
-
+        __vo uint32_t CR;
+        __vo uint32_t PLLCFGR;
+        __vo uint32_t CFGR;
+        __vo uint32_t CIR;
+        __vo uint32_t AHB1RSTR;
+        __vo uint32_t AHB2RSTR;
+        __vo uint32_t AHB3RSTR;
+        uint32_t Reserved0;
+        __vo uint32_t APB1RSTR;
+        __vo uint32_t APB2RSTR;
+        uint32_t Reserved1[2];
+        __vo uint32_t AHB1ENR;
+        __vo uint32_t AHB2ENR;
+        __vo uint32_t AHB3ENR;
+        uint32_t Reserved2;
+        __vo uint32_t APB1ENR;
+        __vo uint32_t APB2ENR;
+        uint32_t Reserved3[2];
+        __vo uint32_t AHB1LPENR;
+        __vo uint32_t AHB2LPENR;
+        __vo uint32_t AHB3LPENR;
+        uint32_t Reserved4;
+        __vo uint32_t APB1LPENR;
+        __vo uint32_t APB2LPENR;
+        uint32_t Reserved5[2];
+        __vo uint32_t BDCR;
+        __vo uint32_t CSR;
+        uint32_t Reserved6[2];
+        __vo uint32_t SSCGR;
+        __vo uint32_t PLLI2SCFGR;
+        __vo uint32_t PLLSAICFGR;
+        __vo uint32_t DCKCFGR;
 } RCC_RegDef_t;
 
 /*
@@ -204,13 +170,12 @@ typedef struct {
  */
 
 typedef struct {
-    __vo uint32_t IMR;   /* Interrupt mask register                        Address offset: 0x00 */
-    __vo uint32_t EMR;   /* Event mask register                            Address offset: 0x04 */
-    __vo uint32_t RTSR;  /* Rising trigger selection register              Address offset: 0x08 */
-    __vo uint32_t FTSR;  /* Falling trigger selection register             Address offset: 0x0C */
-    __vo uint32_t SWIER; /* Software interrupt event register              Address offset: 0x10 */
-    __vo uint32_t PR;    /* Pending register                               Address offset: 0x14 */
-
+        __vo uint32_t IMR;
+        __vo uint32_t EMR;
+        __vo uint32_t RTSR;
+        __vo uint32_t FTSR;
+        __vo uint32_t SWIER;
+        __vo uint32_t PR;
 } EXTI_RegDef_t;
 
 /*
@@ -218,16 +183,15 @@ typedef struct {
  */
 
 typedef struct {
-    __vo uint32_t CR1;
-    __vo uint32_t CR2;
-    __vo uint32_t SR;
-    __vo uint32_t DR;
-    __vo uint32_t CRCPR;
-    __vo uint32_t RXCRCR;
-    __vo uint32_t TRCRCR;
-    __vo uint32_t I2SCFGR;
-    __vo uint32_t I2SPR;
-
+        __vo uint32_t CR1;
+        __vo uint32_t CR2;
+        __vo uint32_t SR;
+        __vo uint32_t DR;
+        __vo uint32_t CRCPR;
+        __vo uint32_t RXCRCR;
+        __vo uint32_t TRCRCR;
+        __vo uint32_t I2SCFGR;
+        __vo uint32_t I2SPR;
 } SPI_RegDef_t;
 
 /*
@@ -235,13 +199,11 @@ typedef struct {
  */
 
 typedef struct {
-    __vo uint32_t MEMRMP; /* SYSCFG memory remap register                             Address offset: 0x00          */
-    __vo uint32_t PMC;    /* SYSCFG peripheral mode configuration register            Address offset: 0x04          */
-    __vo uint32_t
-        EXTICR[4];        /* SYSCFG external interrupt configuration register 1-4     Address offset: 0x08-0x14     */
-    uint32_t RESERVED[2]; /* Reserved                                                 Address offset: 0x18-0x1C     */
-    __vo uint32_t CMPCR;  /* Compensation cell control register                       Address offset: 0x20          */
-
+        __vo uint32_t MEMRMP;
+        __vo uint32_t PMC;
+        __vo uint32_t EXTICR[4];
+        uint32_t RESERVED[2];
+        __vo uint32_t CMPCR;
 } SYSCFG_RegDef_t;
 
 /*
@@ -249,17 +211,16 @@ typedef struct {
  */
 
 typedef struct {
-    __vo uint32_t CR1;
-    __vo uint32_t CR2;
-    __vo uint32_t OAR1;
-    __vo uint32_t OAR2;
-    __vo uint32_t DR;
-    __vo uint32_t SR1;
-    __vo uint32_t SR2;
-    __vo uint32_t CCR;
-    __vo uint32_t TRISE;
-    __vo uint32_t FLTR;
-
+        __vo uint32_t CR1;
+        __vo uint32_t CR2;
+        __vo uint32_t OAR1;
+        __vo uint32_t OAR2;
+        __vo uint32_t DR;
+        __vo uint32_t SR1;
+        __vo uint32_t SR2;
+        __vo uint32_t CCR;
+        __vo uint32_t TRISE;
+        __vo uint32_t FLTR;
 } I2C_RegDef_t;
 
 /*
@@ -267,13 +228,13 @@ typedef struct {
  */
 
 typedef struct {
-    __vo uint32_t SR;
-    __vo uint32_t DR;
-    __vo uint32_t BRR;
-    __vo uint32_t CR1;
-    __vo uint32_t CR2;
-    __vo uint32_t CR3;
-    __vo uint32_t GTPR;
+        __vo uint32_t SR;
+        __vo uint32_t DR;
+        __vo uint32_t BRR;
+        __vo uint32_t CR1;
+        __vo uint32_t CR2;
+        __vo uint32_t CR3;
+        __vo uint32_t GTPR;
 
 } USART_RegDef_t;
 
@@ -281,36 +242,36 @@ typedef struct {
  * Peripheral definitions (Peripheral base addresses typecasted to xxx_RegDef_t) 
  */
 
-#define GPIOA            ((GPIO_RegDef_t*)GPIOA_BASEADDR)
-#define GPIOB            ((GPIO_RegDef_t*)GPIOB_BASEADDR)
-#define GPIOC            ((GPIO_RegDef_t*)GPIOC_BASEADDR)
-#define GPIOD            ((GPIO_RegDef_t*)GPIOD_BASEADDR)
-#define GPIOE            ((GPIO_RegDef_t*)GPIOE_BASEADDR)
-#define GPIOF            ((GPIO_RegDef_t*)GPIOF_BASEADDR)
-#define GPIOG            ((GPIO_RegDef_t*)GPIOG_BASEADDR)
-#define GPIOH            ((GPIO_RegDef_t*)GPIOH_BASEADDR)
-#define GPIOI            ((GPIO_RegDef_t*)GPIOI_BASEADDR)
+#define GPIOA            ((GPIO_RegDef_t *)GPIOA_BASEADDR)
+#define GPIOB            ((GPIO_RegDef_t *)GPIOB_BASEADDR)
+#define GPIOC            ((GPIO_RegDef_t *)GPIOC_BASEADDR)
+#define GPIOD            ((GPIO_RegDef_t *)GPIOD_BASEADDR)
+#define GPIOE            ((GPIO_RegDef_t *)GPIOE_BASEADDR)
+#define GPIOF            ((GPIO_RegDef_t *)GPIOF_BASEADDR)
+#define GPIOG            ((GPIO_RegDef_t *)GPIOG_BASEADDR)
+#define GPIOH            ((GPIO_RegDef_t *)GPIOH_BASEADDR)
+#define GPIOI            ((GPIO_RegDef_t *)GPIOI_BASEADDR)
 
-#define RCC              ((RCC_RegDef_t*)RCC_BASEADDR)
+#define RCC              ((RCC_RegDef_t *)RCC_BASEADDR)
 
-#define EXTI             ((EXTI_RegDef_t*)EXTI_BASEADDR)
+#define EXTI             ((EXTI_RegDef_t *)EXTI_BASEADDR)
 
-#define SYSCFG           ((SYSCFG_RegDef_t*)SYSCFG_BASEADDR)
+#define SYSCFG           ((SYSCFG_RegDef_t *)SYSCFG_BASEADDR)
 
-#define SPI1             ((SPI_RegDef_t*)SPI1_BASEADDR)
-#define SPI2             ((SPI_RegDef_t*)SPI2_BASEADDR)
-#define SPI3             ((SPI_RegDef_t*)SPI3_BASEADDR)
+#define SPI1             ((SPI_RegDef_t *)SPI1_BASEADDR)
+#define SPI2             ((SPI_RegDef_t *)SPI2_BASEADDR)
+#define SPI3             ((SPI_RegDef_t *)SPI3_BASEADDR)
 
-#define I2C1             ((I2C_RegDef_t*)I2C1_BASEADDR)
-#define I2C2             ((I2C_RegDef_t*)I2C2_BASEADDR)
-#define I2C3             ((I2C_RegDef_t*)I2C3_BASEADDR)
+#define I2C1             ((I2C_RegDef_t *)I2C1_BASEADDR)
+#define I2C2             ((I2C_RegDef_t *)I2C2_BASEADDR)
+#define I2C3             ((I2C_RegDef_t *)I2C3_BASEADDR)
 
-#define USART1           ((USART_RegDef_t*)USART1_BASEADDR)
-#define USART2           ((USART_RegDef_t*)USART2_BASEADDR)
-#define USART3           ((USART_RegDef_t*)USART3_BASEADDR)
-#define UART4            ((USART_RegDef_t*)UART4_BASEADDR)
-#define UART5            ((USART_RegDef_t*)UART5_BASEADDR)
-#define USART6           ((USART_RegDef_t*)USART6_BASEADDR)
+#define USART1           ((USART_RegDef_t *)USART1_BASEADDR)
+#define USART2           ((USART_RegDef_t *)USART2_BASEADDR)
+#define USART3           ((USART_RegDef_t *)USART3_BASEADDR)
+#define UART4            ((USART_RegDef_t *)UART4_BASEADDR)
+#define UART5            ((USART_RegDef_t *)UART5_BASEADDR)
+#define USART6           ((USART_RegDef_t *)USART6_BASEADDR)
 
 /*
  * Clock Eanble Macros for GPIO peripherals
@@ -408,67 +369,67 @@ typedef struct {
  * Macros to reset GPIOx peripherals
  */
 
-#define GPIOA_REG_RESET()                                                                                              \
-    do {                                                                                                               \
-        (RCC->AHB1RSTR |= (1 << 0));                                                                                   \
-        (RCC->AHB1ENR &= ~(1 << 0));                                                                                   \
-    } while (0)
-#define GPIOB_REG_RESET()                                                                                              \
-    do {                                                                                                               \
-        (RCC->AHB1RSTR |= (1 << 1));                                                                                   \
-        (RCC->AHB1ENR &= ~(1 << 1));                                                                                   \
-    } while (0)
-#define GPIOC_REG_RESET()                                                                                              \
-    do {                                                                                                               \
-        (RCC->AHB1RSTR |= (1 << 2));                                                                                   \
-        (RCC->AHB1ENR &= ~(1 << 2));                                                                                   \
-    } while (0)
-#define GPIOD_REG_RESET()                                                                                              \
-    do {                                                                                                               \
-        (RCC->AHB1RSTR |= (1 << 3));                                                                                   \
-        (RCC->AHB1ENR &= ~(1 << 3));                                                                                   \
-    } while (0)
-#define GPIOE_REG_RESET()                                                                                              \
-    do {                                                                                                               \
-        (RCC->AHB1RSTR |= (1 << 4));                                                                                   \
-        (RCC->AHB1ENR &= ~(1 << 4));                                                                                   \
-    } while (0)
-#define GPIOF_REG_RESET()                                                                                              \
-    do {                                                                                                               \
-        (RCC->AHB1RSTR |= (1 << 5));                                                                                   \
-        (RCC->AHB1ENR &= ~(1 << 5));                                                                                   \
-    } while (0)
-#define GPIOG_REG_RESET()                                                                                              \
-    do {                                                                                                               \
-        (RCC->AHB1RSTR |= (1 << 6));                                                                                   \
-        (RCC->AHB1ENR &= ~(1 << 6));                                                                                   \
-    } while (0)
-#define GPIOH_REG_RESET()                                                                                              \
-    do {                                                                                                               \
-        (RCC->AHB1RSTR |= (1 << 7));                                                                                   \
-        (RCC->AHB1ENR &= ~(1 << 7));                                                                                   \
-    } while (0)
-#define GPIOI_REG_RESET()                                                                                              \
-    do {                                                                                                               \
-        (RCC->AHB1RSTR |= (1 << 8));                                                                                   \
-        (RCC->AHB1ENR &= ~(1 << 8));                                                                                   \
-    } while (0)
+#define GPIOA_REG_RESET()                    \
+        do {                                 \
+                (RCC->AHB1RSTR |= (1 << 0)); \
+                (RCC->AHB1ENR &= ~(1 << 0)); \
+        } while (0)
+#define GPIOB_REG_RESET()                    \
+        do {                                 \
+                (RCC->AHB1RSTR |= (1 << 1)); \
+                (RCC->AHB1ENR &= ~(1 << 1)); \
+        } while (0)
+#define GPIOC_REG_RESET()                    \
+        do {                                 \
+                (RCC->AHB1RSTR |= (1 << 2)); \
+                (RCC->AHB1ENR &= ~(1 << 2)); \
+        } while (0)
+#define GPIOD_REG_RESET()                    \
+        do {                                 \
+                (RCC->AHB1RSTR |= (1 << 3)); \
+                (RCC->AHB1ENR &= ~(1 << 3)); \
+        } while (0)
+#define GPIOE_REG_RESET()                    \
+        do {                                 \
+                (RCC->AHB1RSTR |= (1 << 4)); \
+                (RCC->AHB1ENR &= ~(1 << 4)); \
+        } while (0)
+#define GPIOF_REG_RESET()                    \
+        do {                                 \
+                (RCC->AHB1RSTR |= (1 << 5)); \
+                (RCC->AHB1ENR &= ~(1 << 5)); \
+        } while (0)
+#define GPIOG_REG_RESET()                    \
+        do {                                 \
+                (RCC->AHB1RSTR |= (1 << 6)); \
+                (RCC->AHB1ENR &= ~(1 << 6)); \
+        } while (0)
+#define GPIOH_REG_RESET()                    \
+        do {                                 \
+                (RCC->AHB1RSTR |= (1 << 7)); \
+                (RCC->AHB1ENR &= ~(1 << 7)); \
+        } while (0)
+#define GPIOI_REG_RESET()                    \
+        do {                                 \
+                (RCC->AHB1RSTR |= (1 << 8)); \
+                (RCC->AHB1ENR &= ~(1 << 8)); \
+        } while (0)
 
 /*
  * Returns port code (0 - 7) for a given GPIOx base address
  */
 
-#define GPIO_BASEADDR_TO_CODE(x)                                                                                       \
-    ((x == GPIOA)   ? 0                                                                                                \
-     : (x == GPIOB) ? 1                                                                                                \
-     : (x == GPIOC) ? 2                                                                                                \
-     : (x == GPIOD) ? 3                                                                                                \
-     : (x == GPIOE) ? 4                                                                                                \
-     : (x == GPIOF) ? 5                                                                                                \
-     : (x == GPIOG) ? 6                                                                                                \
-     : (x == GPIOH) ? 7                                                                                                \
-     : (x == GPIOI) ? 8                                                                                                \
-                    : 0)
+#define GPIO_BASEADDR_TO_CODE(x) \
+        ((x == GPIOA) ? 0 :      \
+         (x == GPIOB) ? 1 :      \
+         (x == GPIOC) ? 2 :      \
+         (x == GPIOD) ? 3 :      \
+         (x == GPIOE) ? 4 :      \
+         (x == GPIOF) ? 5 :      \
+         (x == GPIOG) ? 6 :      \
+         (x == GPIOH) ? 7 :      \
+         (x == GPIOI) ? 8 :      \
+                        0)
 
 /*
  * IRQ(Interrupt Request) Numbers of STM32F407x MCU
@@ -476,17 +437,16 @@ typedef struct {
  * TODO: You may complete this list for other peripherals
  */
 
-#define IRQ_NO_EXTI0     6
-#define IRQ_NO_EXTI1     7
-#define IRQ_NO_EXTI2     8
-#define IRQ_NO_EXTI3     9
-#define IRQ_NO_EXTI4     10
-#define IRQ_NO_EXTI9_5   23
-#define IRQ_NO_EXTI15_10 40
-#define IRQ_NO_SPI1      35
-#define IRQ_NO_SPI2      36
-#define IRQ_NO_SPI3      51
-#define IRQ_NO_SPI4
+#define IRQ_NO_EXTI0      6
+#define IRQ_NO_EXTI1      7
+#define IRQ_NO_EXTI2      8
+#define IRQ_NO_EXTI3      9
+#define IRQ_NO_EXTI4      10
+#define IRQ_NO_EXTI9_5    23
+#define IRQ_NO_EXTI15_10  40
+#define IRQ_NO_SPI1       35
+#define IRQ_NO_SPI2       36
+#define IRQ_NO_SPI3       51
 #define IRQ_NO_I2C1_EV    31
 #define IRQ_NO_I2C1_ER    32
 #define IRQ_NO_USART1     37

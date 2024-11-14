@@ -44,28 +44,28 @@
 
 // Time and Date structure
 typedef struct {
-    uint8_t date;
-    uint8_t month;
-    uint8_t year;
-    uint8_t day;
+        uint8_t date;
+        uint8_t month;
+        uint8_t year;
+        uint8_t day;
 
 } RTC_date_t;
 
 typedef struct {
-    uint8_t seconds;
-    uint8_t minutes;
-    uint8_t hours;
-    uint8_t time_format;
+        uint8_t seconds;
+        uint8_t minutes;
+        uint8_t hours;
+        uint8_t time_format;
 
 } RTC_time_t;
 
 // Function prototypes
 uint8_t ds3231_init(void);
 
-void ds3231_set_current_time(RTC_time_t*);
-void ds3231_get_current_time(RTC_time_t*);
+void ds3231_set_current_time(RTC_time_t *);
+void ds3231_get_current_time(RTC_time_t *);
 
-void ds3231_set_current_date(RTC_date_t*);
-void ds3231_get_current_date(RTC_date_t*);
+void ds3231_set_current_date(RTC_date_t *);
+void ds3231_get_current_date(RTC_date_t *);
 
 #endif /* BSP_DS3231_H_ */
